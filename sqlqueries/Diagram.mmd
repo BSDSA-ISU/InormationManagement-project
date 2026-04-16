@@ -1,0 +1,57 @@
+erDiagram
+
+    ATHLETES {
+        INT athlete_id PK
+        VARCHAR name
+        INT age
+        ENUM sex
+        DECIMAL weight
+        DECIMAL height
+        TIMESTAMP created_at
+    }
+
+    NUTRITION_LOGS {
+        INT nutrition_id PK
+        INT athlete_id FK
+        VARCHAR meal_type
+        INT calories
+        DECIMAL protein
+        DECIMAL carbs
+        DECIMAL fats
+        DATE log_date
+    }
+
+    TRAINING_SESSIONS {
+        INT session_id PK
+        INT athlete_id FK
+        VARCHAR session_type
+        INT duration_minutes
+        ENUM intensity
+        INT calories_burned
+        DATE session_date
+    }
+
+    RECOVERY_LOGS {
+        INT recovery_id PK
+        INT athlete_id FK
+        DECIMAL sleep_hours
+        INT soreness_level
+        INT stress_level
+        INT recovery_score
+        DATE log_date
+    }
+
+    GOALS {
+        INT goal_id PK
+        INT athlete_id FK
+        VARCHAR goal_type
+        DECIMAL target_value
+        DECIMAL current_value
+        DATE start_date
+        DATE end_date
+    }
+
+    ATHLETES ||--o{ NUTRITION_LOGS : has
+    ATHLETES ||--o{ TRAINING_SESSIONS : performs
+    ATHLETES ||--o{ RECOVERY_LOGS : records
+    ATHLETES ||--o{ GOALS : sets
