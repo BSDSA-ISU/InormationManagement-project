@@ -10,17 +10,27 @@
 
 * first commit
 
+> Involved: none
+
 ### 🕗 08:35:48 +0800
 
 * first commit
 
+> Involved: none
+
 ### 🕗 08:37:52 +0800
 
+> Involved: none
+
 * first journey of group 6
+
+> Involved: none
 
 ### 🕗 18:50:39 +0800
 
 * README test added
+
+> Involved: Cyrus Troy
 
 ---
 
@@ -34,9 +44,11 @@
 
 * Initial project structure:
 
-  * Title
+  * Title Renz
   * Introduction
   * Project description
+
+> Involved: Renz, Cyrus Troy
 
 ---
 
@@ -46,33 +58,29 @@
 
 * Added project title, introduction, description, and objectives
 
+> Involved: Cyrus Troy, Renz
+
 ### 🕗 10:09:21 +0800
 
 * Removed duplicate GIF elements from UI
+
+> Involved: Cyrus Troy
 
 ### 🕗 16:37:55 +0800
 
 * Added official system logo
 
+> Involved: Cyrus Troy
+
 ### 🕗 21:34:38 +0800
 
 * UI design still in progress (unfinished layout improvements)
 
+> Involved: Renz, Cyrus Troy
+
 ### 🕗 21:35:36 +0800
 
 * Added footer credit for logo ownership (Team Shanghai Alice / ZUN attribution)
-
----
-
-## 📌 Summary
-
-* Backend structure initialized
-* Database and ER diagram completed
-* Basic UI introduced and iteratively improved
-* Branding and attribution added
-* Dashboard layout currently under active development
-
----
 
 ## 🧠 Notes
 
