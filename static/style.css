@@ -1,0 +1,184 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background: rgb(128, 0, 115);
+  color: #33ff00;
+  padding: 15px 20px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+
+:root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --accent: #38bdf8;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* NAVBAR */
+.navbar {
+    background: #020617;
+    padding: 12px 0;
+    border-bottom: 1px solid #1e293b;
+}
+
+.nav-container {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+}
+
+.logo img {
+    width: 28px;
+}
+
+nav a {
+    color: var(--muted);
+    margin-left: 15px;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
+/* MAIN */
+.container {
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: 28px;
+}
+
+.hero p {
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+.mascot {
+    margin-top: 15px;
+    width: 200px;
+    border-radius: 12px;
+}
+
+/* CARDS */
+.card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* LIST */
+.athlete-list {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.athlete-list li {
+    padding: 10px;
+    border-bottom: 1px solid #334155;
+}
+
+.athlete-list a {
+    text-decoration: none;
+    color: var(--accent);
+}
+
+/* FORM */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form input,
+.form select {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #020617;
+    color: var(--text);
+}
+
+.form button {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent);
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.form button:hover {
+    opacity: 0.8;
+}
+
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.85rem;
+    border-top: 1px solid #1e293b;
+    background: rgba(2, 6, 23, 0.6);
+    backdrop-filter: blur(6px);
+}
+
+footer small {
+    display: inline-block;
+    max-width: 700px;
+    line-height: 1.4;
+}
+
+footer a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+footer a:hover {
+    opacity: 0.8;
+}
