@@ -19,8 +19,6 @@
   - [📖 Project Description](#-project-description)
   - [🎯 Objective of the System](#-objective-of-the-system)
 
-![Kaguya](https://media1.tenor.com/m/klBPU9I_898AAAAC/mokou-kaguya.gif)
-
 ## 📌 Introduction
 
 Athlete Nutritional & Training Recovery Dashboard is a lightweight and efficient monitoring designed for athletes to track their health and stuffs
