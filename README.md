@@ -17,6 +17,7 @@
   - [Members](#members)
   - [📌 Introduction](#-introduction)
   - [📖 Project Description](#-project-description)
+  - [🎯 Objective of the System](#-objective-of-the-system)
 
 ![Kaguya](https://media1.tenor.com/m/klBPU9I_898AAAAC/mokou-kaguya.gif)
 
@@ -38,3 +39,13 @@ The Athlete Nutritional & Training Recovery Dashboard is a database-driven appli
 - recovery_logs
 
 It is designed to be simple, fast, and practical—no unnecessary garbage features.
+
+## 🎯 Objective of the System
+
+- Centralized Athlete Data Management
+- Support for CRUD Operations
+- Data Organization Through Relational Database Design
+- Performance and Health Monitoring
+- Data-Driven Insights Generation
+- User-Friendly Command-Line Interface and web app interface
+- Foundation for Future Expansion
