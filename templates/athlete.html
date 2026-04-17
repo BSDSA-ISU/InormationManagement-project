@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ athlete[0] }}'s Dashboard</title>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <img src="/static/logo.png">
+            <span>{{ athlete[0] }}'s Dashboard</span>
+        </div>
+
+        <nav>
+            <a target="_blank" href="https://github.com/BSDSA-ISU/InormationManagement-project">GitHub</a>
+            <a href="/">Home</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- HERO / ATHLETE INFO -->
+    <section class="hero">
+        <h1>{{ athlete[0] }}'s Dashboard</h1>
+
+        <p>Age: {{ athlete[1] }}</p>
+        <p>Weight: {{ athlete[2] }} kg</p>
+        <p>Height: {{ athlete[3] }} cm</p>
+
+        <br>
+        <a href="/edit/{{ athlete_id }}">✏️ Edit Athlete</a>
+    </section>
+
+    <!-- STATS -->
+    <section class="card">
+        <h2>📊 Stats</h2>
+        <p>Total Calories: {{ calories }} kcal</p>
+        <p>Total Training Time: {{ training }} minutes</p>
+        <p>Avg Recovery Score: {{ recovery }}</p>
+    </section>
+
+    <!-- CHARTS -->
+    <section class="card">
+        <h2>📈 Calories Trend</h2>
+        {% if chart %}
+            <img src="/{{ chart }}" class="chart">
+        {% else %}
+            <p>No data yet 😢</p>
+        {% endif %}
+    </section>
+
+    <section class="card">
+        <h2>📊 Calories</h2>
+        {% if calorie_chart %}
+            <img src="/{{ calorie_chart }}?v={{ athlete_id }}" class="chart">
+        {% else %}
+            <p>No data yet 😢</p>
+        {% endif %}
+    </section>
+
+    <section class="card">
+        <h2>🏋️ Training</h2>
+        {% if training_chart %}
+            <img src="/{{ training_chart }}?v={{ athlete_id }}" class="chart">
+        {% else %}
+            <p>No data yet 😢</p>
+        {% endif %}
+    </section>
+
+    <section class="card">
+        <h2>😴 Recovery</h2>
+        {% if recovery_chart %}
+            <img src="/{{ recovery_chart }}?v={{ athlete_id }}" class="chart">
+        {% else %}
+            <p>No data yet 😢</p>
+        {% endif %}
+    </section>
+
+    <!-- BACK BUTTON -->
+    <div style="margin-top: 20px;">
+        <a href="/">← Back</a>
+    </div>
+
+</main>
+
+</body>
+</html>

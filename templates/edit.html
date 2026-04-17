@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Athlete</title>
+    <link rel="icon" type="image/png" sizes="300x298" href="/static/logo.png">
+</head>
+<body>
+
+<h1>✏️ Edit Athlete</h1>
+
+<form method="POST">
+
+    <!-- 🧑 Athlete info -->
+    <h3>Basic Info</h3>
+
+    <input name="name" value="{{ athlete[0] }}" required><br>
+    <input name="age" value="{{ athlete[1] }}"><br>
+
+    <select name="sex">
+        <option {% if athlete[2]=='Male' %}selected{% endif %}>Male</option>
+        <option {% if athlete[2]=='Female' %}selected{% endif %}>Female</option>
+        <option {% if athlete[2]=='Other' %}selected{% endif %}>Other</option>
+    </select><br>
+
+    <input name="weight" value="{{ athlete[3] }}"><br>
+    <input name="height" value="{{ athlete[4] }}"><br>
+
+    <hr>
+
+    <!-- 🏋️ Training -->
+    <h3>🏋️ Add Training Session</h3>
+
+    <input name="session_type" placeholder="Strength / Cardio"><br>
+    <input name="duration_minutes" type="number" placeholder="Minutes"><br>
+
+    <select name="intensity">
+        <option>Low</option>
+        <option>Medium</option>
+        <option>High</option>
+    </select><br>
+
+    <input name="calories_burned" type="number" placeholder="Calories burned"><br>
+    <input name="session_date" type="date"><br>
+
+    <hr>
+
+    <!-- 😴 Recovery -->
+    <h3>😴 Add Recovery Log</h3>
+
+    <label>Sleep Hours</label>
+    <input name="sleep_hours" type="number" step="0.1" placeholder="Sleep hours"><br>
+    <label>Soreness (1-10)</label>
+    <select name="soreness_level">
+      <option value="">Select</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+    </select><br>
+
+    <label>Stress (1-10)</label>
+    <select name="stress_level">
+      <option value="">Select</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+    </select><br>
+
+<label>Recovery Score</label>
+<select name="recovery_score">
+  <option value="">Select</option>
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+  <option value="7">7</option>
+  <option value="8">8</option>
+  <option value="9">9</option>
+  <option value="10">10</option>
+</select><br>
+
+    <label>Date</label>
+    <input name="log_date" type="date"><br>
+
+    <br>
+    <button type="submit">💾 Save All</button>
+
+</form>
+
+<br>
+<a href="/">⬅ Back</a>
+
+</body>
+</html>
