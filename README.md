@@ -2,7 +2,9 @@
 
 > Group 6
 
-![Kaguya](https://media1.tenor.com/m/klBPU9I_898AAAAC/mokou-kaguya.gif)
+official System logo:
+
+![alt text](./static/logo.png)
 
 ## Members
 
@@ -47,3 +49,5 @@ It is designed to be simple, fast, and practical—no unnecessary garbage featur
 - Data-Driven Insights Generation
 - User-Friendly Command-Line Interface and web app interface
 - Foundation for Future Expansion
+
+![Kaguya](https://media1.tenor.com/m/klBPU9I_898AAAAC/mokou-kaguya.gif)
