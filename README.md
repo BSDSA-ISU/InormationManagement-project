@@ -206,7 +206,7 @@ DB_PORT=6969
 
 - Do NOT use `root` for your Flask app (unless you enjoy chaos)
 - MariaDB and MySQL use almost identical SQL syntax
-- Port `3306` is the default for both MariaDB/MySQL
-- Your Python app uses **PyMySQL**, so it works with both servers
+- Port `5000` is the default for flask
+- Python app uses **PyMySQL**, so it works with both servers
 
 ![Kaguya](https://media1.tenor.com/m/klBPU9I_898AAAAC/mokou-kaguya.gif)
