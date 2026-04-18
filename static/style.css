@@ -196,3 +196,40 @@ input:focus, select:focus, textarea:focus {
     border-color: #38bdf8;
     box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
 }
+
+.instruction-box {
+    border-left: 4px solid #38bdf8;
+    background: rgba(56, 189, 248, 0.08);
+}
+
+.instruction-box h2 {
+    margin-bottom: 8px;
+}
+
+.instruction-box p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+    color: #0b1220;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+button[type="submit"]:active {
+    transform: translateY(0px);
+}
