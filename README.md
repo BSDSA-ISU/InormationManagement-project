@@ -34,7 +34,7 @@ official System logo:
   - [📖 Project Description](#-project-description)
   - [🎯 Objective of the System](#-objective-of-the-system)
   - [⬇️ Installation](#️-installation)
-    - [📦 Install MariaDB (MySQL support coming soon™)](#-install-mariadb-mysql-support-coming-soon)
+    - [📦 Install MariaDB or Mysql](#-install-mariadb-or-mysql)
   - [🚀 Start the Database Server](#-start-the-database-server)
     - [🪟 Windows](#-windows)
       - [🧩 Option 1: Services (Recommended)](#-option-1-services-recommended)
@@ -78,11 +78,13 @@ It is designed to be simple, fast, and practical—no unnecessary garbage featur
 
 ## ⬇️ Installation
 
-### 📦 Install MariaDB (MySQL support coming soon™)
+### 📦 Install MariaDB or Mysql
 
 Download and install MariaDB from the official site:
 
 - 🔗 [https://mariadb.org/download/](https://mariadb.org/download/)
+- 🔗 [https://dev.mysql.com/downloads/installer/](https://dev.mysql.com/downloads/installer/)
+- 🔗 [https://www.apachefriends.org/](https://www.apachefriends.org/)
 
 ---
 
@@ -119,8 +121,6 @@ net start mysql
 
 - Use XAMPP Control Panel
 - Start **MySQL Module**
-
-🔗 [https://www.apachefriends.org/](https://www.apachefriends.org/)
 
 ---
 
@@ -197,7 +197,7 @@ DB_SERVER=localhost
 DB_USER=athlete_user
 DB_PASSWORD=yourpassword
 DB_DATABASE=athlete_dashboard
-DB_PORT=3306
+DB_PORT=6969
 ```
 
 ---
