@@ -1,7 +1,14 @@
 [project]
-name = "infomanagement-prject"
+name = "Athlete-db"
 version = "0.1.0"
-description = "Add your description here"
+description = "Training recovery dashboard idk"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "dotenv>=0.9.9",
+    "flask>=3.1.3",
+    "flask-mysqldb>=2.0.0",
+    "mariadb>=1.1.14",
+    "matplotlib>=3.10.8",
+    "pymysql>=1.1.2",
+]
