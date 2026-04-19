@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash, url_for
 import matplotlib.pyplot as plt
 import os
 import pymysql
@@ -14,6 +14,7 @@ db_databasename = os.getenv("DB_DATABASE", "athlete_dashboard")
 db_port = int(os.getenv("DB_PORT", 6969))
 
 app = Flask(__name__)
+app.secret_key = "Koishi11"
 
 def connect_db():
     return pymysql.connect(
@@ -155,113 +156,118 @@ def edit_athlete(athlete_id):
 
     # UPDATE + INSERT
     if request.method == "POST":
+        try:
 
-        # Update athlete info
-        name = request.form["name"]
-        age = request.form["age"]
-        sex = request.form["sex"]
-        weight = request.form["weight"]
-        height = request.form["height"]
+            # Update athlete info
+            name = request.form["name"]
+            age = request.form["age"]
+            sex = request.form["sex"]
+            weight = request.form["weight"]
+            height = request.form["height"]
 
-        cur.execute("""
-            UPDATE athletes
-            SET name=%s, age=%s, sex=%s, weight=%s, height=%s
-            WHERE athlete_id=%s
-        """, (name, age, sex, weight, height, athlete_id))
+            cur.execute("""
+                UPDATE athletes
+                SET name=%s, age=%s, sex=%s, weight=%s, height=%s
+                WHERE athlete_id=%s
+            """, (name, age, sex, weight, height, athlete_id))
 
 
-        # Insert training session
-        session_types = request.form.getlist("session_type[]")
-        durations = request.form.getlist("duration_minutes[]")
-        intensities = request.form.getlist("intensity[]")
-        calories = request.form.getlist("calories_burned[]")
-        dates = request.form.getlist("session_date[]")
+            # Insert training session
+            session_types = request.form.getlist("session_type[]")
+            durations = request.form.getlist("duration_minutes[]")
+            intensities = request.form.getlist("intensity[]")
+            calories = request.form.getlist("calories_burned[]")
+            dates = request.form.getlist("session_date[]")
 
-        for i in range(len(session_types)):
-            if session_types[i].strip():  # ignore empty rows
-                cur.execute("""
-                    INSERT INTO training_sessions
-                    (athlete_id, session_type, duration_minutes, intensity, calories_burned, session_date)
-                    VALUES (%s, %s, %s, %s, %s, %s)
-                """, (
-                    athlete_id,
-                    session_types[i],
-                    durations[i],
-                    intensities[i],
-                    calories[i],
-                    dates[i]
-                ))
+            for i in range(len(session_types)):
+                if session_types[i].strip():  # ignore empty rows
+                    cur.execute("""
+                        INSERT INTO training_sessions
+                        (athlete_id, session_type, duration_minutes, intensity, calories_burned, session_date)
+                        VALUES (%s, %s, %s, %s, %s, %s)
+                    """, (
+                        athlete_id,
+                        session_types[i],
+                        durations[i],
+                        intensities[i],
+                        calories[i],
+                        dates[i]
+                    ))
 
-        # Insert recovery log
-        sleep_hours = request.form.getlist("sleep_hours[]")
-        soreness = request.form.getlist("soreness_level[]")
-        stress = request.form.getlist("stress_level[]")
-        recovery = request.form.getlist("recovery_score[]")
-        recovery_dates = request.form.getlist("recovery_log_date[]")
+            # Insert recovery log
+            sleep_hours = request.form.getlist("sleep_hours[]")
+            soreness = request.form.getlist("soreness_level[]")
+            stress = request.form.getlist("stress_level[]")
+            recovery = request.form.getlist("recovery_score[]")
+            recovery_dates = request.form.getlist("recovery_log_date[]")
 
-        for i in range(len(sleep_hours)):
-            if sleep_hours[i].strip():
-                cur.execute("""
-                    INSERT INTO recovery_logs
-                    (athlete_id, sleep_hours, soreness_level, stress_level, recovery_score, log_date)
-                    VALUES (%s, %s, %s, %s, %s, %s)
-                """, (
-                    athlete_id,
-                    sleep_hours[i],
-                    soreness[i],
-                    stress[i],
-                    recovery[i],
-                    recovery_dates[i] if recovery_dates[i] else None
-                ))
+            for i in range(len(sleep_hours)):
+                if sleep_hours[i].strip():
+                    cur.execute("""
+                        INSERT INTO recovery_logs
+                        (athlete_id, sleep_hours, soreness_level, stress_level, recovery_score, log_date)
+                        VALUES (%s, %s, %s, %s, %s, %s)
+                    """, (
+                        athlete_id,
+                        sleep_hours[i],
+                        soreness[i],
+                        stress[i],
+                        recovery[i],
+                        recovery_dates[i] if recovery_dates[i] else None
+                    ))
 
-        # Nutrition logs
-        meal_types = request.form.getlist("meal_type[]")
-        calories = request.form.getlist("calories[]")
-        protein = request.form.getlist("protein[]")
-        carbs = request.form.getlist("carbs[]")
-        fats = request.form.getlist("fats[]")
-        nutrition_dates = request.form.getlist("nutrition_log_date[]")
+            # Nutrition logs
+            meal_types = request.form.getlist("meal_type[]")
+            calories = request.form.getlist("calories[]")
+            protein = request.form.getlist("protein[]")
+            carbs = request.form.getlist("carbs[]")
+            fats = request.form.getlist("fats[]")
+            nutrition_dates = request.form.getlist("nutrition_log_date[]")
 
-        for i in range(len(meal_types)):
-            if meal_types[i].strip():
-                cur.execute("""
-                    INSERT INTO nutrition_logs
-                    (athlete_id, meal_type, calories, protein, carbs, fats, log_date)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s)
-                """, (
-                    athlete_id,
-                    meal_types[i],
-                    calories[i],
-                    protein[i],
-                    carbs[i],
-                    fats[i],
-                    nutrition_dates[i] if nutrition_dates[i] else None
-                ))
+            for i in range(len(meal_types)):
+                if meal_types[i].strip():
+                    cur.execute("""
+                        INSERT INTO nutrition_logs
+                        (athlete_id, meal_type, calories, protein, carbs, fats, log_date)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s)
+                    """, (
+                        athlete_id,
+                        meal_types[i],
+                        calories[i],
+                        protein[i],
+                        carbs[i],
+                        fats[i],
+                        nutrition_dates[i] if nutrition_dates[i] else None
+                    ))
 
-        # 🎯 Goals (MULTIPLE)
-        goal_types = request.form.getlist("goal_type[]")
-        target_values = request.form.getlist("target_value[]")
-        current_values = request.form.getlist("current_value[]")
-        start_dates = request.form.getlist("start_date[]")
-        end_dates = request.form.getlist("end_date[]")
+            # 🎯 Goals (MULTIPLE)
+            goal_types = request.form.getlist("goal_type[]")
+            target_values = request.form.getlist("target_value[]")
+            current_values = request.form.getlist("current_value[]")
+            start_dates = request.form.getlist("start_date[]")
+            end_dates = request.form.getlist("end_date[]")
 
-        for i in range(len(goal_types)):
-            if goal_types[i].strip():
-                cur.execute("""
-                    INSERT INTO goals
-                    (athlete_id, goal_type, target_value, current_value, start_date, end_date)
-                    VALUES (%s, %s, %s, %s, %s, %s)
-                """, (
-                    athlete_id,
-                    goal_types[i],
-                    target_values[i],
-                    current_values[i],
-                    start_dates[i],
-                    end_dates[i]
-                ))
-            
-        conn.commit()
-        return redirect(f"/athlete/{athlete_id}")
+            for i in range(len(goal_types)):
+                if goal_types[i].strip():
+                    cur.execute("""
+                        INSERT INTO goals
+                        (athlete_id, goal_type, target_value, current_value, start_date, end_date)
+                        VALUES (%s, %s, %s, %s, %s, %s)
+                    """, (
+                        athlete_id,
+                        goal_types[i],
+                        target_values[i],
+                        current_values[i],
+                        start_dates[i],
+                        end_dates[i]
+                    ))
+
+            conn.commit()
+            return redirect(f"/athlete/{athlete_id}")
+        except Exception as e:
+            conn.rollback()
+            flash(f"❌ Error: {str(e)}", "error")
+            return redirect(url_for("edit_athlete", athlete_id=athlete_id))
 
     # LOAD athlete data
     cur.execute("""

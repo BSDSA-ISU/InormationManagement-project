@@ -56,6 +56,17 @@
 <main class="container">
 
 <form method="POST">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+          {% for category, msg in messages %}
+            <li style="color: {% if category == 'error' %}red{% else %}green{% endif %}">
+              {{ msg }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 
     <section class="card instruction-box">
         <h2>ℹ️ Instructions</h2>
