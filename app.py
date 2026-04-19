@@ -25,21 +25,6 @@ def connect_db():
         autocommit=False
     )
 
-def init_db():
-    conn = connect_db()
-    cursor = conn.cursor()
-
-    with open("./sqlqueries/Init.sql", "r") as f:
-        sql_script = f.read()
-
-    for statement in sql_script.split(";"):
-        if statement.strip():
-            cursor.execute(statement)
-
-    conn.commit()
-    cursor.close()
-    conn.close()
-
 def generate_calorie_chart(athlete_id):
     conn = connect_db()
     cur = conn.cursor()
@@ -81,8 +66,6 @@ def generate_calorie_chart(athlete_id):
 def index():
     conn = connect_db()
     cur = conn.cursor()
-
-    init_db()
 
     # ➕ CREATE new athlete
     if request.method == "POST":
@@ -362,4 +345,4 @@ def generate_recovery_chart(athlete_id):
     return path
 
 if __name__ == "__main__":
-    app.run(debug=True, port=db_port)
+    app.run(debug=True, port=db_port, host="0.0.0.0")
