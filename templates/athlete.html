@@ -47,13 +47,19 @@
         <p>Avg Recovery Score: {{ recovery }}</p>
     </section>
 
-    <!-- CHARTS -->
     <section class="card">
-        <h2>📈 Calories Trend</h2>
-        {% if chart %}
-            <img src="/{{ chart }}" class="chart">
+        <h2>🎯 Goals</h2>
+        
+        {% if goals %}
+            {% for g in goals %}
+                <div class="multi-box">
+                    <p><b>{{ g[0] }}</b></p>
+                    <p>Progress: {{ g[2] }} / {{ g[1] }}</p>
+                    <p>From {{ g[3] }} → {{ g[4] }}</p>
+                </div>
+            {% endfor %}
         {% else %}
-            <p>No data yet 😢</p>
+            <p>No goals yet 😢</p>
         {% endif %}
     </section>
 

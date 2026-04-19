@@ -57,24 +57,13 @@
 
 <form method="POST">
 
-    <section class="card">
-        <h2>Instructions</h2>
-    
+    <section class="card instruction-box">
+        <h2>ℹ️ Instructions</h2>
         <p>
-            You can edit athlete information and add multiple records at once.
-            Leave a section empty if you don’t want to update it.
+            You can edit any section you want. Leave other sections empty if not needed — only filled entries will be saved.
         </p>
-    
-        <ul>
-            <li>Basic info updates the athlete profile</li>
-            <li>Training: add multiple sessions using “Add Another Session”</li>
-            <li>Recovery: add multiple recovery logs if needed</li>
-            <li>Nutrition: track meals and macros (optional)</li>
-            <li>Goals: define progress targets (optional)</li>
-        </ul>
-    
-        <p style="color: var(--muted); font-size: 0.9rem;">
-            ⚠️ Empty fields are ignored automatically.
+        <p>
+            Click <b>“Add Another”</b> to input multiple records (training, nutrition, goals, recovery).
         </p>
     </section>
 
@@ -110,7 +99,7 @@
                     <option>High</option>
                 </select>
 
-                <input name="calories_burned[]" type="number" placeholder="Calories burned">
+                <input name="calories_burned[]" type="number" placeholder="Calories burned (kcal)">
                 <input name="session_date[]" type="date">
             </div>
         </div>
@@ -167,7 +156,7 @@
                     <option value="10">10</option>
                 </select>
 
-                <input name="log_date[]" type="date">
+                <input name="recovery_log_date[]" type="date">
             </div>
         </div>
 
@@ -187,12 +176,12 @@
                 <option>Snack</option>
             </select>
         
-            <input name="calories[]" type="number" placeholder="Calories">
-            <input name="protein[]" type="number" step="0.1" placeholder="Protein">
-            <input name="carbs[]" type="number" step="0.1" placeholder="Carbs">
-            <input name="fats[]" type="number" step="0.1" placeholder="Fats">
+            <input name="calories[]" type="number" placeholder="Calories (kcal)">
+            <input name="protein[]" type="number" step="0.1" placeholder="Protein (grams)">
+            <input name="carbs[]" type="number" step="0.1" placeholder="Carbs (grams)">
+            <input name="fats[]" type="number" step="0.1" placeholder="Fats (grams)">
         
-            <input name="log_date[]" type="date">
+            <input name="nutrition_log_date[]" type="date">
         </div>
     </div>
 
