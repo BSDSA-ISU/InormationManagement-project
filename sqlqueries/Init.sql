@@ -1,7 +1,4 @@
-CREATE DATABASE athlete_dashboard;
-USE athlete_dashboard;
-
-CREATE TABLE athletes (
+CREATE TABLE IF NOT EXISTS athletes (
     athlete_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     age INT,
@@ -11,7 +8,7 @@ CREATE TABLE athletes (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE nutrition_logs (
+CREATE TABLE IF NOT EXISTS nutrition_logs (
     nutrition_id INT AUTO_INCREMENT PRIMARY KEY,
     athlete_id INT NOT NULL,
     meal_type VARCHAR(50), -- breakfast, lunch, etc.
@@ -25,7 +22,7 @@ CREATE TABLE nutrition_logs (
         ON DELETE CASCADE
 );
 
-CREATE TABLE training_sessions (
+CREATE TABLE IF NOT EXISTS training_sessions (
     session_id INT AUTO_INCREMENT PRIMARY KEY,
     athlete_id INT NOT NULL,
     session_type VARCHAR(50), -- cardio, strength, etc.
@@ -38,7 +35,7 @@ CREATE TABLE training_sessions (
         ON DELETE CASCADE
 );
 
-CREATE TABLE recovery_logs (
+CREATE TABLE IF NOT EXISTS recovery_logs (
     recovery_id INT AUTO_INCREMENT PRIMARY KEY,
     athlete_id INT NOT NULL,
     sleep_hours DECIMAL(3,1),
@@ -51,7 +48,7 @@ CREATE TABLE recovery_logs (
         ON DELETE CASCADE
 );
 
-CREATE TABLE goals (
+CREATE TABLE IF NOT EXISTS goals (
     goal_id INT AUTO_INCREMENT PRIMARY KEY,
     athlete_id INT NOT NULL,
     goal_type VARCHAR(50), -- weight loss, endurance, etc.

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import matplotlib.pyplot as plt
 import os
-import mariadb
+import pymysql
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -11,16 +11,34 @@ db_server = os.getenv("DB_SERVER", "localhost")
 db_user = os.getenv("DB_USER", 'root')
 db_password = os.getenv("DB_PASSWORD", "")
 db_databasename = os.getenv("DB_DATABASE", "athlete_dashboard")
+db_port = int(os.getenv("DB_PORT", 6969))
 
 app = Flask(__name__)
 
 def connect_db():
-    return mariadb.connect(
+    return pymysql.connect(
+        host=db_server,
         user=db_user,
         password=db_password,
-        host=db_password,
-        database="athlete_dashboard"
+        database=db_databasename,
+        cursorclass=pymysql.cursors.Cursor,
+        autocommit=False
     )
+
+def init_db():
+    conn = connect_db()
+    cursor = conn.cursor()
+
+    with open("./sqlqueries/Init.sql", "r") as f:
+        sql_script = f.read()
+
+    for statement in sql_script.split(";"):
+        if statement.strip():
+            cursor.execute(statement)
+
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 def generate_calorie_chart(athlete_id):
     conn = connect_db()
@@ -29,12 +47,13 @@ def generate_calorie_chart(athlete_id):
     cur.execute("""
         SELECT log_date, SUM(calories)
         FROM nutrition_logs
-        WHERE athlete_id = ?
+        WHERE athlete_id = %s
         GROUP BY log_date
         ORDER BY log_date
     """, (athlete_id,))
 
     data = cur.fetchall()
+
     conn.close()
 
     if not data:
@@ -63,6 +82,8 @@ def index():
     conn = connect_db()
     cur = conn.cursor()
 
+    init_db()
+
     # ➕ CREATE new athlete
     if request.method == "POST":
         name = request.form["name"]
@@ -73,7 +94,7 @@ def index():
 
         cur.execute("""
             INSERT INTO athletes (name, age, sex, weight, height)
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (%s, %s, %s, %s, %s)
         """, (name, age, sex, weight, height))
 
         conn.commit()
@@ -91,22 +112,43 @@ def athlete(athlete_id):
     conn = connect_db()
     cur = conn.cursor()
 
-    cur.execute("SELECT name, age, weight, height FROM athletes WHERE athlete_id = ?", (athlete_id,))
+    cur.execute("""SELECT name, age, weight, height
+    FROM athletes WHERE athlete_id = %s
+    """,
+    (athlete_id,))
+    
     athlete = cur.fetchone()
 
-    cur.execute("SELECT SUM(calories) FROM nutrition_logs WHERE athlete_id = ?", (athlete_id,))
-    total_calories = cur.fetchone()[0] or 0
+    cur.execute("""SELECT SUM(calories) FROM nutrition_logs
+    WHERE athlete_id = %s""",
+    (athlete_id,))
+    
+    total_calories = cur.fetchone()[0] or 0  # pyright: ignore[reportOptionalSubscript]
 
-    cur.execute("SELECT SUM(duration_minutes) FROM training_sessions WHERE athlete_id = ?", (athlete_id,))
-    total_training = cur.fetchone()[0] or 0
+    cur.execute("""SELECT SUM(duration_minutes) FROM
+    training_sessions WHERE athlete_id = %s""",
+    (athlete_id,))
+    
+    total_training = cur.fetchone()[0] or 0  # pyright: ignore[reportOptionalSubscript]
 
-    cur.execute("SELECT AVG(recovery_score) FROM recovery_logs WHERE athlete_id = ?", (athlete_id,))
-    avg_recovery = cur.fetchone()[0] or 0
+    cur.execute("""SELECT AVG(recovery_score) FROM recovery_logs
+    WHERE athlete_id = %s""",
+    (athlete_id,))
+    
+    avg_recovery = cur.fetchone()[0] or 0  # pyright: ignore[reportOptionalSubscript]
 
     # 📊 charts
     calorie_chart = generate_calorie_chart(athlete_id)
     training_chart = generate_training_chart(athlete_id)
     recovery_chart = generate_recovery_chart(athlete_id)
+
+    cur.execute("""
+    SELECT goal_type, target_value, current_value, start_date, end_date
+    FROM goals
+    WHERE athlete_id = %s
+    """, (athlete_id,))
+
+    goals = cur.fetchall()
 
     conn.close()
 
@@ -119,7 +161,8 @@ def athlete(athlete_id):
         calorie_chart=calorie_chart,
         training_chart=training_chart,
         recovery_chart=recovery_chart,
-        athlete_id=athlete_id
+        athlete_id=athlete_id,
+        goals=goals
     )
 
 @app.route("/edit/<int:athlete_id>", methods=["GET", "POST"])
@@ -127,7 +170,7 @@ def edit_athlete(athlete_id):
     conn = connect_db()
     cur = conn.cursor()
 
-    # ✏️ UPDATE + INSERT
+    # UPDATE + INSERT
     if request.method == "POST":
 
         # Update athlete info
@@ -139,8 +182,8 @@ def edit_athlete(athlete_id):
 
         cur.execute("""
             UPDATE athletes
-            SET name=?, age=?, sex=?, weight=?, height=?
-            WHERE athlete_id=?
+            SET name=%s, age=%s, sex=%s, weight=%s, height=%s
+            WHERE athlete_id=%s
         """, (name, age, sex, weight, height, athlete_id))
 
 
@@ -156,7 +199,7 @@ def edit_athlete(athlete_id):
                 cur.execute("""
                     INSERT INTO training_sessions
                     (athlete_id, session_type, duration_minutes, intensity, calories_burned, session_date)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    VALUES (%s, %s, %s, %s, %s, %s)
                 """, (
                     athlete_id,
                     session_types[i],
@@ -171,24 +214,22 @@ def edit_athlete(athlete_id):
         soreness = request.form.getlist("soreness_level[]")
         stress = request.form.getlist("stress_level[]")
         recovery = request.form.getlist("recovery_score[]")
-        log_dates = request.form.getlist("log_date[]")
+        recovery_dates = request.form.getlist("recovery_log_date[]")
 
         for i in range(len(sleep_hours)):
             if sleep_hours[i].strip():
                 cur.execute("""
                     INSERT INTO recovery_logs
                     (athlete_id, sleep_hours, soreness_level, stress_level, recovery_score, log_date)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    VALUES (%s, %s, %s, %s, %s, %s)
                 """, (
                     athlete_id,
                     sleep_hours[i],
                     soreness[i],
                     stress[i],
                     recovery[i],
-                    log_dates[i]
+                    recovery_dates[i] if recovery_dates[i] else None
                 ))
-                conn.commit()
-                return redirect(f"/athlete/{athlete_id}")
 
         # Nutrition logs
         meal_types = request.form.getlist("meal_type[]")
@@ -196,14 +237,14 @@ def edit_athlete(athlete_id):
         protein = request.form.getlist("protein[]")
         carbs = request.form.getlist("carbs[]")
         fats = request.form.getlist("fats[]")
-        log_dates = request.form.getlist("log_date[]")
+        nutrition_dates = request.form.getlist("nutrition_log_date[]")
 
         for i in range(len(meal_types)):
             if meal_types[i].strip():
                 cur.execute("""
                     INSERT INTO nutrition_logs
                     (athlete_id, meal_type, calories, protein, carbs, fats, log_date)
-                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
                 """, (
                     athlete_id,
                     meal_types[i],
@@ -211,7 +252,7 @@ def edit_athlete(athlete_id):
                     protein[i],
                     carbs[i],
                     fats[i],
-                    log_dates[i]
+                    nutrition_dates[i] if nutrition_dates[i] else None
                 ))
 
         # 🎯 Goals (MULTIPLE)
@@ -226,7 +267,7 @@ def edit_athlete(athlete_id):
                 cur.execute("""
                     INSERT INTO goals
                     (athlete_id, goal_type, target_value, current_value, start_date, end_date)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    VALUES (%s, %s, %s, %s, %s, %s)
                 """, (
                     athlete_id,
                     goal_types[i],
@@ -235,12 +276,15 @@ def edit_athlete(athlete_id):
                     start_dates[i],
                     end_dates[i]
                 ))
+            
+        conn.commit()
+        return redirect(f"/athlete/{athlete_id}")
 
     # LOAD athlete data
     cur.execute("""
         SELECT name, age, sex, weight, height
         FROM athletes
-        WHERE athlete_id=?
+        WHERE athlete_id=%s
     """, (athlete_id,))
 
     athlete = cur.fetchone()
@@ -256,7 +300,7 @@ def generate_training_chart(athlete_id):
     cur.execute("""
         SELECT session_date, SUM(duration_minutes)
         FROM training_sessions
-        WHERE athlete_id = ?
+        WHERE athlete_id = %s
         GROUP BY session_date
         ORDER BY session_date
     """, (athlete_id,))
@@ -290,7 +334,7 @@ def generate_recovery_chart(athlete_id):
     cur.execute("""
         SELECT log_date, AVG(recovery_score)
         FROM recovery_logs
-        WHERE athlete_id = ?
+        WHERE athlete_id = %s
         GROUP BY log_date
         ORDER BY log_date
     """, (athlete_id,))
@@ -318,4 +362,4 @@ def generate_recovery_chart(athlete_id):
     return path
 
 if __name__ == "__main__":
-    app.run(debug=True, port=6969)
+    app.run(debug=True, port=db_port)
