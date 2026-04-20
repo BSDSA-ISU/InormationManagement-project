@@ -233,3 +233,8 @@ button[type="submit"]:hover {
 button[type="submit"]:active {
     transform: translateY(0px);
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+}
