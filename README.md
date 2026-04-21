@@ -45,6 +45,8 @@ official System logo:
     - [🐬 MariaDB](#-mariadb)
     - [🐬 MySQL](#-mysql)
   - [🔧 Configure Environment Variables](#-configure-environment-variables)
+  - [🔧 Running the app.py](#-running-the-apppy)
+    - [❌ if getting an library errros during uv sync](#-if-getting-an-library-errros-during-uv-sync)
   - [⚠️ Notes](#️-notes)
 
 ## 📌 Introduction
@@ -199,6 +201,37 @@ DB_PASSWORD=yourpassword
 DB_DATABASE=athlete_dashboard
 DB_PORT=6969
 ```
+
+## 🔧 Running the app.py
+
+**Via uv(most recommended both windows and linux):**
+
+```ps1
+# if first time running:
+uv run Firstrun.py
+
+# install dependencies
+uv sync
+
+# Runit
+uv run app.py
+
+# With Gunicorn if ready
+uv run gunicorn -w 2 -b 0.0.0.0:8000 app:app
+```
+
+*Copy the site paste it in your browser and enjoy!!*
+
+![alt text](image.png)
+
+### ❌ if getting an library errros during uv sync
+
+**You may need to install this dependencies if encountered an error:**
+
+- libmariadb-dev
+- build-essential
+- mariadb-libs
+- python3-dev
 
 ---
 
