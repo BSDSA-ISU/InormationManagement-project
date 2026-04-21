@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athlete List</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <img src="/static/logo.png">
+            <span>Athletes</span>
+        </div>
+
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <section class="card">
+        <form method="GET" action="/athletes" class="form">
+        <input 
+            type="text" 
+            name="search" 
+            placeholder="Search athlete..." 
+            value="{{ search }}"
+        >
+        <button type="submit">Search</button>
+    </form>
+    <h2>👥 Athlete List</h2>
+
+    <ul class="athlete-list">
+        {% for a in athletes %}
+            <li>
+                <a href="/athlete/{{ a[0] }}">{{ a[1] }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</section>
+
+</main>
+
+</body>
+</html>
