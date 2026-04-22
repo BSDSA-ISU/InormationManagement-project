@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import matplotlib.pyplot as plt
 import os
 import pymysql
@@ -13,8 +14,15 @@ db_password = os.getenv("DB_PASSWORD", "")
 db_databasename = os.getenv("DB_DATABASE", "athlete_dashboard")
 db_port = int(os.getenv("DB_PORT", 6969))
 
+# adds error handling using secrert key
 app = Flask(__name__)
 app.secret_key = "Koishi11"
+
+# for login manager
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"  # pyright: ignore[reportAttributeAccessIssue]
+
 
 def connect_db():
     return pymysql.connect(
@@ -26,6 +34,64 @@ def connect_db():
         autocommit=False
     )
 
+# User class
+class User(UserMixin):
+    def __init__(self, id, username, password, role):
+        self.id = id
+        self.username = username
+        self.password = password
+        self.role = role
+
+    def is_admin(self):
+        return self.role == "admin"
+
+
+# User loader
+@login_manager.user_loader
+def load_user(user_id):
+    conn = connect_db()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, username, password, role FROM users WHERE id=%s", (user_id,))
+    user = cur.fetchone()
+
+    conn.close()
+
+    if user:
+        return User(user[0], user[1], user[2], user[3])
+    return None
+
+# login page landing
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        conn = connect_db()
+        cur = conn.cursor()
+
+        cur.execute("SELECT id, username, password, role FROM users WHERE username=%s", (username,))
+        user = cur.fetchone()
+
+        conn.close()
+
+        if user and user[2] == password:
+            login_user(User(user[0], user[1], user[2], user[3]))
+            return redirect("/")
+        else:
+            flash("Invalid login", "error")
+
+    return render_template("login.html")
+
+# Logout
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect("/login")
+
+# generates calories graph
 def generate_calorie_chart(athlete_id):
     conn = connect_db()
     cur = conn.cursor()
@@ -62,34 +128,10 @@ def generate_calorie_chart(athlete_id):
 
     return path
 
-# 🏠 Homepage → list athletes
+# Landing pege
 @app.route("/", methods=["GET", "POST"])
 def index():
-    conn = connect_db()
-    cur = conn.cursor()
-
-    # ➕ CREATE new athlete
-    if request.method == "POST":
-        name = request.form["name"]
-        age = request.form["age"]
-        sex = request.form["sex"]
-        weight = request.form["weight"]
-        height = request.form["height"]
-
-        cur.execute("""
-            INSERT INTO athletes (name, age, sex, weight, height)
-            VALUES (%s, %s, %s, %s, %s)
-        """, (name, age, sex, weight, height))
-
-        conn.commit()
-        return redirect("/")
-
-    # 📥 READ athletes
-    cur.execute("SELECT athlete_id, name FROM athletes")
-    athletes = cur.fetchall()
-
-    conn.close()
-    return render_template("index.html", athletes=athletes)
+    return render_template("index.html")
 
 @app.route("/athlete/<int:athlete_id>")
 def athlete(athlete_id):
@@ -225,7 +267,13 @@ def edit_athlete(athlete_id):
             nutrition_dates = request.form.getlist("nutrition_log_date[]")
 
             for i in range(len(meal_types)):
-                if meal_types[i].strip():
+                if (
+                    meal_types[i].strip() and
+                    calories[i].strip() and
+                    protein[i].strip() and
+                    carbs[i].strip() and
+                    fats[i].strip()
+                ):
                     cur.execute("""
                         INSERT INTO nutrition_logs
                         (athlete_id, meal_type, calories, protein, carbs, fats, log_date)
@@ -233,10 +281,10 @@ def edit_athlete(athlete_id):
                     """, (
                         athlete_id,
                         meal_types[i],
-                        calories[i],
-                        protein[i],
-                        carbs[i],
-                        fats[i],
+                        int(calories[i]),
+                        float(protein[i]),
+                        float(carbs[i]),
+                        float(fats[i]),
                         nutrition_dates[i] if nutrition_dates[i] else None
                     ))
 
@@ -316,6 +364,7 @@ def generate_training_chart(athlete_id):
 
     return path
 
+# Generates Recovery Graphs using matplotlib
 def generate_recovery_chart(athlete_id):
     conn = connect_db()
     cur = conn.cursor()
@@ -349,6 +398,101 @@ def generate_recovery_chart(athlete_id):
     plt.close()
 
     return path
+
+# get all athletes from db
+def get_all_athletes():
+    conn = connect_db()
+    cur = conn.cursor()
+
+    cur.execute("SELECT athlete_id, name FROM athletes")
+    athletes = cur.fetchall()
+
+    conn.close()
+    return athletes
+
+# Athlete webpge
+@app.route("/athletes")
+def athlete_list():
+    search = request.args.get("search", "")
+
+    conn = connect_db()
+    cur = conn.cursor()
+
+    if search:
+        cur.execute("""
+            SELECT athlete_id, name
+            FROM athletes
+            WHERE name LIKE %s
+        """, (f"%{search}%",))
+    else:
+        cur.execute("""
+            SELECT athlete_id, name
+            FROM athletes
+        """)
+
+    athletes = cur.fetchall()
+    conn.close()
+
+    return render_template("athlete_list.html", athletes=athletes, search=search)
+
+# Add athlete
+@app.route("/add", methods=["GET", "POST"])
+@login_required
+def add_athlete():
+    if not current_user.is_admin():
+        flash("🚫 Admins only!", "error")
+        return redirect("/")
+    
+    conn = connect_db()
+    cur = conn.cursor()
+
+    if request.method == "POST":
+        name = request.form["name"]
+        age = request.form["age"]
+        sex = request.form["sex"]
+        weight = request.form["weight"]
+        height = request.form["height"]
+
+        cur.execute("""
+            INSERT INTO athletes (name, age, sex, weight, height)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (name, age, sex, weight, height))
+
+        conn.commit()
+        conn.close()
+
+        flash("✅ Athlete added!", "success")
+        return redirect("/athletes")
+
+    conn.close()
+    return render_template("add_athlete.html")
+
+# delete entry
+@app.route("/delete/<int:athlete_id>", methods=["POST"])
+@login_required
+def delete_athlete(athlete_id):
+    
+    # returns error if not an admin
+    if not current_user.is_admin():
+        flash("🚫 Admins only!", "error")
+        return redirect("/athletes")
+
+    conn = connect_db()
+    cur = conn.cursor()
+
+    try:
+        cur.execute("DELETE FROM athletes WHERE athlete_id=%s", (athlete_id,))
+        conn.commit()
+        flash("Athlete deleted 🗑", "success")
+
+    except Exception as e:
+        conn.rollback()
+        flash(f"Error: {e}", "error")
+
+    finally:
+        conn.close()
+
+    return redirect("/athletes")
 
 if __name__ == "__main__":
     app.run(debug=True, port=db_port, host="0.0.0.0")
