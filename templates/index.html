@@ -25,11 +25,16 @@
         </div>
 
         <nav>
-            <a target="_blank" href="https://github.com/BSDSA-ISU/InormationManagement-project">GitHub</a>
-            <a href="/">Home</a>
-            {% if current_user.is_authenticated %}
-                <a href="/add">➕ Add Athlete</a>
-            {% endif %}
+            <div class="dropdown">
+              <button class="dropbtn">Menu</button>
+              <div class="dropdown-content">
+                <a href="/athletes">View Athletes</a>
+                <a href="/">Home</a>
+                {% if current_user.is_authenticated %}
+                    <a href="/add">Add Athlete</a>
+                {% endif %}
+              </div>
+            </div>
         </nav>
     </div>
 </header>
@@ -43,15 +48,22 @@
         <img class="mascot kaguya Houraisan" src="/static/Kaguya.gif">
     </section>
 
-    <section class="card">
-        <h2>👥 Athletes</h2>
-        <a href="/athletes">View Athlete List</a>
-    </section>
+<section class="card instruction-box">
+    <h2>👋 Hello, I'm Cyrus Troy "Alieelinux" Bazar!</h2>
+    <p>
+        I'm just an Ilocano student living in the beautiful holy lands of Isabela
+        Attending at the glorius Isabela State University.
+    </p>
 
-    <section class="card">
-        <h2>Site made by a ilocano student in Isabela</h2>
-        </form>
-    </section>
+    <div class="link-group">
+        <a target="_blank" href="https://github.com/BSDSA-ISU/InormationManagement-project" class="project-btn">
+            <span>📂</span> GitHub Source Code
+        </a>
+        <a href="#" class="project-btn secondary">
+            <span>🔗</span> Stuff & Resources
+        </a>
+    </div>
+</section>
 
 </main>
 
