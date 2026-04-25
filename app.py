@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import os
 import pymysql
@@ -440,8 +442,8 @@ def athlete_list():
 @login_required
 def add_athlete():
     if not current_user.is_admin():
-        flash("🚫 Admins only!", "error")
-        return redirect("/")
+        flash("🚫 Admins only! Please login as admin first", "error")
+        return redirect(url_for('login', error='admins_only'))
     
     conn = connect_db()
     cur = conn.cursor()
@@ -475,7 +477,7 @@ def delete_athlete(athlete_id):
     # returns error if not an admin
     if not current_user.is_admin():
         flash("🚫 Admins only!", "error")
-        return redirect("/athletes")
+        return redirect(url_for('login', error='admins_only'))
 
     conn = connect_db()
     cur = conn.cursor()
