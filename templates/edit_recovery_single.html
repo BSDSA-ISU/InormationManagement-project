@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Recovery Entry</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<main class="container">
+
+<h2>✏️ Edit Recovery Entry</h2>
+
+<form method="POST">
+
+    <input name="sleep_hours" value="{{ log[2] }}">
+    <input name="soreness_level" value="{{ log[3] }}">
+    <input name="stress_level" value="{{ log[4] }}">
+    <input name="recovery_score" value="{{ log[5] }}">
+    <input type="date" name="log_date" value="{{ log[7] }}">
+
+    <button class="project-btn">💾 Save</button>
+
+</form>
+
+</main>
+
+</body>
+</html>

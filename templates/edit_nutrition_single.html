@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Nutrition Entry</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<main class="container">
+
+<h2>✏️ Edit Nutrition Entry</h2>
+
+<form method="POST">
+
+    <input name="meal_type" value="{{ log[2] }}">
+    <input name="calories" value="{{ log[3] }}">
+    <input name="protein" value="{{ log[4] }}">
+    <input name="carbs" value="{{ log[5] }}">
+    <input name="fats" value="{{ log[6] }}">
+    <input type="date" name="log_date" value="{{ log[7] }}">
+
+    <button class="project-btn">💾 Save</button>
+
+</form>
+
+</main>
+
+</body>
+</html>

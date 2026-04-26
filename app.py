@@ -1,12 +1,14 @@
-from flask import Flask, render_template, request, redirect, flash, url_for
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask import Flask, render_template, request, redirect, flash
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import os
 import pymysql
 from dotenv import load_dotenv
-from lib.nutrition import nutrition_bp
+from lib.nutrition import nutrition_bp, edit_nutrition_single_bp
+from lib.recovery import recovery_bp, edit_recovery_single_bp
+from lib.training import training_bp, edit_training_single_bp
 from lib.athletes import athlete_list_bp, add_athlete_bp, delete_athlete_bp, edit_athlete_bp
 from lib.graphs import generate_recovery_chart, generate_training_chart
 
@@ -24,11 +26,21 @@ app = Flask(__name__)
 app.secret_key = "Koishi11"
 
 # Register components
-app.register_blueprint(nutrition_bp)
+
+## Managing athletes(CRUD)
 app.register_blueprint(athlete_list_bp)
 app.register_blueprint(add_athlete_bp)
 app.register_blueprint(delete_athlete_bp)
 app.register_blueprint(edit_athlete_bp)
+## Edit nutritions
+app.register_blueprint(nutrition_bp)
+app.register_blueprint(edit_nutrition_single_bp)
+## Edit recovery
+app.register_blueprint(edit_recovery_single_bp)
+app.register_blueprint(recovery_bp)
+## Edit training
+app.register_blueprint(edit_training_single_bp)
+app.register_blueprint(training_bp)
 
 # for login manager
 login_manager = LoginManager()

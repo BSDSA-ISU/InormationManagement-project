@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Nutrition</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="nav-container">
+        <div class="logo">
+            <span>🍽️ Nutrition Logs</span>
+        </div>
+        <nav>
+            <a href="/athlete/{{ athlete_id }}">Back</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+
+<section class="card">
+
+<h2>All Nutrition Entries</h2>
+
+{% for n in logs %}
+<div class="multi-box">
+
+    <p><b>{{ n[1] }}</b> - {{ n[6] }}</p>
+    <p>
+        {{ n[2] }} kcal |
+        P: {{ n[3] }} |
+        C: {{ n[4] }} |
+        F: {{ n[5] }}
+    </p>
+
+    <a href="/edit/nutrition/single/{{ n[0] }}">✏️ Edit</a>
+
+</div>
+{% endfor %}
+
+</section>
+
+</main>
+
+</body>
+</html>

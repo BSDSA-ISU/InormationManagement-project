@@ -48,7 +48,7 @@
 
     <section class="card">
         <h2>🎯 Goals</h2>
-        
+    
         {% if goals %}
             {% for g in goals %}
                 <div class="multi-box">
@@ -60,33 +60,60 @@
         {% else %}
             <p>No goals yet 😢</p>
         {% endif %}
+            
+        <br>
+            
+        <a class="project-btn" href="/edit/goals/{{ athlete_id }}">
+            ✏️ Edit Goals
+        </a>
     </section>
 
     <section class="card">
         <h2>📊 Calories</h2>
+
         {% if calorie_chart %}
             <img src="/{{ calorie_chart }}?v={{ athlete_id }}" class="chart">
         {% else %}
             <p>No data yet 😢</p>
         {% endif %}
+
+        <br>
+
+        <a class="project-btn" href="/edit/nutrition/{{ athlete_id }}">
+            ✏️ Edit Nutrition Logs
+        </a>
     </section>
 
     <section class="card">
         <h2>🏋️ Training</h2>
+
         {% if training_chart %}
             <img src="/{{ training_chart }}?v={{ athlete_id }}" class="chart">
         {% else %}
             <p>No data yet 😢</p>
         {% endif %}
+
+        <br>
+
+        <a class="project-btn" href="/edit/training/{{ athlete_id }}">
+            ✏️ Edit Training Sessions
+        </a>
     </section>
 
     <section class="card">
         <h2>😴 Recovery</h2>
+
         {% if recovery_chart %}
             <img src="/{{ recovery_chart }}?v={{ athlete_id }}" class="chart">
         {% else %}
             <p>No data yet 😢</p>
         {% endif %}
+
+        <br>
+
+        <a class="project-btn" href="/edit/recovery/{{ athlete_id }}">
+            ✏️ Edit Recovery Logs
+        </a>
     </section>
 
     <!-- BACK BUTTON -->
