@@ -35,4 +35,12 @@
 </main>
 
 </body>
+
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('error') === 'admins_only') {
+    alert("🚫 Admins only!");
+}
+</script>
+
 </html>
