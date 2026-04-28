@@ -46,7 +46,7 @@ def edit_recovery_single(recovery_id):
         ))
 
         conn.commit()
-        return redirect(request.referrer or "/athletes")
+        return redirect("/athletes")
 
     cur.execute("""
         SELECT * FROM recovery_logs WHERE recovery_id=%s
