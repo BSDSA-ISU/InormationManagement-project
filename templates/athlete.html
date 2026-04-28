@@ -11,117 +11,117 @@
 
 <body>
 
-<header class="navbar">
-    <div class="nav-container">
-        <div class="logo">
-            <img src="/static/logo.png">
-            <span>{{ athlete[0] }}'s Dashboard</span>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/static/logo.png", style="border-radius: 50%;">
+                <span>{{ athlete[0] }}'s Dashboard</span>
+            </div>
+
+            <nav>
+                <a href="/">Home</a>
+            </nav>
         </div>
+    </header>
 
-        <nav>
-            <a href="/">Home</a>
-        </nav>
-    </div>
-</header>
-
-<main class="container">
-
-    <!-- HERO / ATHLETE INFO -->
-    <section class="hero">
-        <h1>{{ athlete[0] }}'s Dashboard</h1>
-
-        <p>Age: {{ athlete[1] }}</p>
-        <p>Weight: {{ athlete[2] }} kg</p>
-        <p>Height: {{ athlete[3] }} cm</p>
-
-        <br>
-        <a href="/edit/{{ athlete_id }}">✏️ Edit Athlete</a>
-    </section>
-
-    <!-- STATS -->
-    <section class="card">
-        <h2>📊 Stats</h2>
-        <p>Total Calories: {{ calories }} kcal</p>
-        <p>Total Training Time: {{ training }} minutes</p>
-        <p>Avg Recovery Score: {{ recovery }}</p>
-    </section>
-
-    <section class="card">
-        <h2>🎯 Goals</h2>
+    <main class="container">
     
-        {% if goals %}
-            {% for g in goals %}
-                <div class="multi-box">
-                    <p><b>{{ g[0] }}</b></p>
-                    <p>Progress: {{ g[2] }} / {{ g[1] }}</p>
-                    <p>From {{ g[3] }} → {{ g[4] }}</p>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No goals yet 😢</p>
-        {% endif %}
-            
-        <br>
-            
-        <a class="project-btn" href="/edit/goals/{{ athlete_id }}">
-            ✏️ Edit Goals
-        </a>
-    </section>
-
-    <section class="card">
-        <h2>📊 Calories</h2>
-
-        {% if calorie_chart %}
-            <img src="/{{ calorie_chart }}?v={{ athlete_id }}" class="chart">
-        {% else %}
-            <p>No data yet 😢</p>
-        {% endif %}
-
-        <br>
-
-        <a class="project-btn" href="/edit/nutrition/{{ athlete_id }}">
-            ✏️ Edit Nutrition Logs
-        </a>
-    </section>
-
-    <section class="card">
-        <h2>🏋️ Training</h2>
-
-        {% if training_chart %}
-            <img src="/{{ training_chart }}?v={{ athlete_id }}" class="chart">
-        {% else %}
-            <p>No data yet 😢</p>
-        {% endif %}
-
-        <br>
-
-        <a class="project-btn" href="/edit/training/{{ athlete_id }}">
-            ✏️ Edit Training Sessions
-        </a>
-    </section>
-
-    <section class="card">
-        <h2>😴 Recovery</h2>
-
-        {% if recovery_chart %}
-            <img src="/{{ recovery_chart }}?v={{ athlete_id }}" class="chart">
-        {% else %}
-            <p>No data yet 😢</p>
-        {% endif %}
-
-        <br>
-
-        <a class="project-btn" href="/edit/recovery/{{ athlete_id }}">
-            ✏️ Edit Recovery Logs
-        </a>
-    </section>
-
-    <!-- BACK BUTTON -->
-    <div style="margin-top: 20px;">
-        <a href="/">← Back</a>
-    </div>
-
-</main>
+        <!-- HERO / ATHLETE INFO -->
+        <section class="hero">
+            <h1>{{ athlete[0] }}'s Dashboard</h1>
+        
+            <p>Age: {{ athlete[1] }}</p>
+            <p>Weight: {{ athlete[2] }} kg</p>
+            <p>Height: {{ athlete[3] }} cm</p>
+        
+            <br>
+            <a href="/edit/{{ athlete_id }}">✏️ Edit Athlete</a>
+        </section>
+    
+        <!-- STATS -->
+        <section class="card">
+            <h2>📊 Stats</h2>
+            <p>Total Calories: {{ calories }} kcal</p>
+            <p>Total Training Time: {{ training }} minutes</p>
+            <p>Avg Recovery Score: {{ recovery }}</p>
+        </section>
+    
+        <section class="card">
+            <h2>🎯 Goals</h2>
+        
+            {% if goals %}
+                {% for g in goals %}
+                    <div class="multi-box">
+                        <p><b>{{ g[0] }}</b></p>
+                        <p>Progress: {{ g[2] }} / {{ g[1] }}</p>
+                        <p>From {{ g[3] }} → {{ g[4] }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No goals yet 😢</p>
+            {% endif %}
+                
+            <br>
+                
+            <a class="project-btn" href="/edit/goals/{{ athlete_id }}">
+                ✏️ Edit Goals
+            </a>
+        </section>
+    
+        <section class="card">
+            <h2>📊 Calories</h2>
+        
+            {% if calorie_chart %}
+                <img src="/{{ calorie_chart }}?v={{ athlete_id }}" class="chart">
+            {% else %}
+                <p>No data yet 😢</p>
+            {% endif %}
+        
+            <br>
+        
+            <a class="project-btn" href="/edit/nutrition/{{ athlete_id }}">
+                ✏️ Edit Nutrition Logs
+            </a>
+        </section>
+    
+        <section class="card">
+            <h2>🏋️ Training</h2>
+        
+            {% if training_chart %}
+                <img src="/{{ training_chart }}?v={{ athlete_id }}" class="chart">
+            {% else %}
+                <p>No data yet 😢</p>
+            {% endif %}
+        
+            <br>
+        
+            <a class="project-btn" href="/edit/training/{{ athlete_id }}">
+                ✏️ Edit Training Sessions
+            </a>
+        </section>
+    
+        <section class="card">
+            <h2>😴 Recovery</h2>
+        
+            {% if recovery_chart %}
+                <img src="/{{ recovery_chart }}?v={{ athlete_id }}" class="chart">
+            {% else %}
+                <p>No data yet 😢</p>
+            {% endif %}
+        
+            <br>
+        
+            <a class="project-btn" href="/edit/recovery/{{ athlete_id }}">
+                ✏️ Edit Recovery Logs
+            </a>
+        </section>
+    
+        <!-- BACK BUTTON -->
+        <div style="margin-top: 20px;">
+            <a href="/">← Back</a>
+        </div>
+    
+    </main>
 
 </body>
 </html>

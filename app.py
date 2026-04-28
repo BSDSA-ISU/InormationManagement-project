@@ -11,6 +11,7 @@ from lib.recovery import recovery_bp, edit_recovery_single_bp
 from lib.training import training_bp, edit_training_single_bp
 from lib.athletes import athlete_list_bp, add_athlete_bp, delete_athlete_bp, edit_athlete_bp
 from lib.graphs import generate_recovery_chart, generate_training_chart
+from lib.goals import goals_bp, edit_goals_single_bp
 
 load_dotenv()
 
@@ -41,6 +42,9 @@ app.register_blueprint(recovery_bp)
 ## Edit training
 app.register_blueprint(edit_training_single_bp)
 app.register_blueprint(training_bp)
+## Edit goal
+app.register_blueprint(goals_bp)
+app.register_blueprint(edit_goals_single_bp)
 
 # for login manager
 login_manager = LoginManager()

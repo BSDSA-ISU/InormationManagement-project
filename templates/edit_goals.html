@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Nutrition</title>
+    <title>Edit Goals</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 
@@ -12,7 +12,7 @@
         <div class="nav-container">
             <div class="logo">
                 <img src="/static/logo.png" style="border-radius: 50%;">
-                <span>Edit nutrition</span>
+                <span>Edit Goal</span>
             </div>
 
             <nav>
@@ -23,29 +23,27 @@
     </header>
 
     <main class="container">
-    
+
         <section class="card">
         
-        <h2>All Nutrition Entries</h2>
+        <h2>All Goals entries</h2>
         
-            {% for n in logs %}
+        {% for n in logs %}
             <div class="multi-box">
             
-                <p><b>{{ n[1] }}</b> - {{ n[6] }}</p>
+                <p><b>goal: {{ n[1] }} </b>Progression: {{ n[3] }} / {{ n[2] }}</p>
                 <p>
-                    {{ n[2] }} kcal |
-                    P: {{ n[3] }} |
-                    C: {{ n[4] }} |
-                    F: {{ n[5] }}
+                    Start: {{ n[4] }}  |
+                    End: {{ n[5] }} |
                 </p>
             
-                <a href="/edit/nutrition/single/{{ n[0] }}">✏️ Edit</a>
+                <a href="/edit/goals/single/{{ n[0] }}">✏️ Edit</a>
             
             </div>
             {% endfor %}
-        
+
         </section>
-    
+
     </main>
 
 </body>

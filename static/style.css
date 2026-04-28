@@ -389,3 +389,9 @@ hr {
     border-width: 5px;
     border-color: #16223f;
 }
+
+.round-img {
+  border-radius: 50%;
+  width: 200px; /* Example size */
+  height: 200px;
+}

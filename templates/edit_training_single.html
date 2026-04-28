@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Training Entry</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+        <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/static/logo.png" style="border-radius: 50%;">
+                <span>Edit Training</span>
+            </div>
+
+            <nav>
+                    <a href="/edit/training/{{ log[1] }}">back</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <h2>Edit Training Entry</h2>
+
+        <section class="card">
+            <form method="POST">
+                <div class="input-group">
+                    <label>session type: </label>
+                    <input name="session_type" value="{{ log[2] }}">
+                </div>        
+            
+                <div class="input-group">
+                    <label>Duretion Minutes: </label>
+                    <input type="number" name="duration_minutes" value="{{ log[3] }}">
+                </div>
+            
+                <div class="input-group">
+                    <label>intensity</label>
+                    <select name="intensity">
+                        <option>low</option>
+                        <option>medium</option>
+                        <option>high</option>
+                    </select>
+                </div>
+            
+                <div class="input-group">
+                    <label>calories_burned:</label>
+                    <input type="number" name="calories_burned" value="{{ log[5] }}">
+                </div>
+            
+                <div class="input-group">
+                    <label>session_date :</label>
+                    <input type="date" name="session_date" value="{{ log[6] }}">
+                </div>
+            
+                <button class="project-btn">💾 Save Changes</button>
+            
+            </form>
+        </section>
+    </main>
+
+</body>
+</html>

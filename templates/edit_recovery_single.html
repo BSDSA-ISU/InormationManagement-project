@@ -6,24 +6,95 @@
 </head>
 
 <body>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/static/logo.png" style="border-radius: 50%;">
+                <span>Edit Recovery</span>
+            </div>
 
-<main class="container">
+        <nav>
+            <a href="/edit/recovery/{{ log[1] }}">Back</a>
+        </nav>
 
-<h2>✏️ Edit Recovery Entry</h2>
+        </div>
+    </header>
 
-<form method="POST">
+    <main class="container">
+        <section class="card">
 
-    <input name="sleep_hours" value="{{ log[2] }}">
-    <input name="soreness_level" value="{{ log[3] }}">
-    <input name="stress_level" value="{{ log[4] }}">
-    <input name="recovery_score" value="{{ log[5] }}">
-    <input type="date" name="log_date" value="{{ log[7] }}">
+        <h2>✏️ Edit Recovery Entry</h2>
 
-    <button class="project-btn">💾 Save</button>
+        <form method="POST">
 
-</form>
+            <div class="input-group">
+                <label>Sleep Hours:</label>
+                <input type="number" step="any" name="sleep_hours" value="{{ log[2] }}">
+            </div>
 
-</main>
+
+            <div class="input-group">
+                <label>Soreness Level:</label>
+                <select name="soreness_level">
+                    <option value="">Soreness (1-10)</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Stress Level: </label>
+                <select name="stress_level">
+                    <option value="">Stress Level (1-10)</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+            <label>Recovery score: </label>
+                <select name="recovery_score">
+                    <option value="">recovery score (1-10)</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Log date:</label>
+                <input type="date" name="log_date" value="{{ log[6] }}">
+            </div>
+
+            <button class="project-btn">💾 Save Changes</button>
+
+            </form>
+        </section>
+
+    </main>
 
 </body>
 </html>

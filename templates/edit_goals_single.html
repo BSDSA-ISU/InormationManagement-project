@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Nutrition Entry</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/static/logo.png" style="border-radius: 50%;">
+                <span>Edit Goal</span>
+            </div>
+
+            <nav>
+                    <a href="/edit/goals/{{ log[1] }}">back</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <h2>✏️ Edit Nutrition Entry</h2>
+
+        <section class="card">
+
+            <form method="POST">
+
+                <div class="input-group">
+                    <label>Goal: </label>
+                    <input name="goal_type" value="{{ log[2] }}">
+                </div>
+
+
+                <div class="input-group">
+                    <label>Target Value: </label>
+                    <input type="number" name="target_value" value="{{ log[3] }}">
+                </div>
+
+                <div class="input-group">
+                    <label>current value</label>
+                    <input type="number" name="current_value" value="{{ log[4] }}">
+                </div>
+
+                <div class="input-group">
+                    <label>start date:</label>
+                    <input type="date" name="start_date" value="{{ log[5] }}">
+                </div>
+
+                <div class="input-group">
+                    <label>End date:</label>
+                    <input type="date" name="end_date" value="{{ log[6] }}">
+                </div>
+
+                <button class="project-btn">💾 Save Changes</button>
+
+            </form>
+        </section>
+    </main>
+</body>
+</html>

@@ -8,11 +8,13 @@
 
 <body>
 
-<header class="navbar">
-    <div class="nav-container">
-        <div class="logo">
-            <span>🍽️ Nutrition Logs</span>
-        </div>
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/static/logo.png" style="border-radius: 50%;">
+                <span>Edit Recovery</span>
+            </div>
+
         <nav>
             <a href="/athlete/{{ athlete_id }}">Back</a>
         </nav>
@@ -28,12 +30,11 @@
 {% for n in logs %}
 <div class="multi-box">
 
-    <p><b>{{ n[1] }} sleep hours</b> - {{ n[5] }}</p>
+    <p><b>{{ n[1] }} sleep hours</b>| Log date: {{ n[5] }}</p>
     <p>
-        {{ n[2] }} kcal |
-        P: {{ n[3] }} stress level |
-        C: {{ n[4] }} recovery score|
-        F: {{ n[5] }}
+        {{ n[2] }} kcal
+        stress level: {{ n[3] }} |
+        recovery score : {{ n[4] }}
     </p>
 
     <a href="/edit/recovery/single/{{ n[0] }}">✏️ Edit</a>
