@@ -2,6 +2,43 @@ import os
 from matplotlib import pyplot as plt
 from lib.connect_db import connect_db
 
+# generates calories graph
+def generate_calorie_chart(athlete_id):
+    conn = connect_db()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT log_date, SUM(calories)
+        FROM nutrition_logs
+        WHERE athlete_id = %s
+        GROUP BY log_date
+        ORDER BY log_date
+    """, (athlete_id,))
+
+    data = cur.fetchall()
+
+    conn.close()
+
+    if not data:
+        return None
+
+    dates = [str(row[0]) for row in data]
+    calories = [row[1] for row in data]
+
+    plt.figure()
+    plt.plot(dates, calories)
+    plt.xticks(rotation=45)
+    plt.title("Calories Over Time")
+    plt.xlabel("Date")
+    plt.ylabel("Calories")
+
+    os.makedirs("static", exist_ok=True)
+    path = f"static/graphs/calories_{athlete_id}.png"
+    plt.savefig(path, bbox_inches='tight')
+    plt.close()
+
+    return path
+
 # Generate training chart
 def generate_training_chart(athlete_id):
     conn = connect_db()
@@ -31,7 +68,7 @@ def generate_training_chart(athlete_id):
     plt.ylabel("Minutes")
 
     os.makedirs("static", exist_ok=True)
-    path = f"static/training_{athlete_id}.png"
+    path = f"static/graphs/training_{athlete_id}.png"
     plt.savefig(path, bbox_inches='tight')
     plt.close()
 
@@ -66,7 +103,7 @@ def generate_recovery_chart(athlete_id):
     plt.ylabel("Recovery Score")
 
     os.makedirs("static", exist_ok=True)
-    path = f"static/recovery_{athlete_id}.png"
+    path = f"static/graphs/recovery_{athlete_id}.png"
     plt.savefig(path, bbox_inches='tight')
     plt.close()
 

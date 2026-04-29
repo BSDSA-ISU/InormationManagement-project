@@ -10,7 +10,7 @@ from lib.nutrition import nutrition_bp, edit_nutrition_single_bp
 from lib.recovery import recovery_bp, edit_recovery_single_bp
 from lib.training import training_bp, edit_training_single_bp
 from lib.athletes import athlete_list_bp, add_athlete_bp, delete_athlete_bp, edit_athlete_bp
-from lib.graphs import generate_recovery_chart, generate_training_chart
+from lib.graphs import generate_recovery_chart, generate_training_chart, generate_calorie_chart
 from lib.goals import goals_bp, edit_goals_single_bp
 
 load_dotenv()
@@ -118,43 +118,6 @@ def login():
 def logout():
     logout_user()
     return redirect("/login")
-
-# generates calories graph
-def generate_calorie_chart(athlete_id):
-    conn = connect_db()
-    cur = conn.cursor()
-
-    cur.execute("""
-        SELECT log_date, SUM(calories)
-        FROM nutrition_logs
-        WHERE athlete_id = %s
-        GROUP BY log_date
-        ORDER BY log_date
-    """, (athlete_id,))
-
-    data = cur.fetchall()
-
-    conn.close()
-
-    if not data:
-        return None
-
-    dates = [str(row[0]) for row in data]
-    calories = [row[1] for row in data]
-
-    plt.figure()
-    plt.plot(dates, calories)
-    plt.xticks(rotation=45)
-    plt.title("Calories Over Time")
-    plt.xlabel("Date")
-    plt.ylabel("Calories")
-
-    os.makedirs("static", exist_ok=True)
-    path = f"static/calories_{athlete_id}.png"
-    plt.savefig(path, bbox_inches='tight')
-    plt.close()
-
-    return path
 
 # Landing pege
 @app.route("/", methods=["GET", "POST"])
