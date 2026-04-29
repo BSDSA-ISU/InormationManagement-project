@@ -5,7 +5,7 @@ body {
 
 header {
   background: rgb(128, 0, 115);
-  color: #33ff00;
+  color: #9d00f2;
   padding: 15px 20px;
 }
 
@@ -373,17 +373,21 @@ img {
 }
 
 .dropdown-content a {
-  color: rgb(0, 255, 51);
+  color: #9900fe;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
 
-.dropdown-content a:hover {background-color: #0a1d70;}
+.dropbtn {
+    color: #9d00f2;
+}
+
+.dropdown-content a:hover {background-color: #001ea5;}
 
 .dropdown:hover .dropdown-content {display: block;}
 
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
+.dropdown:hover .dropbtn {background-color: #340047;}
 
 hr {
     border-width: 5px;
