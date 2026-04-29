@@ -84,7 +84,6 @@ def edit_athlete(athlete_id):
     # UPDATE + INSERT
     if request.method == "POST":
         try:
-
             # Update athlete info
             name = request.form["name"]
             age = request.form["age"]

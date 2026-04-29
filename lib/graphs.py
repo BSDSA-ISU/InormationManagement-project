@@ -1,6 +1,9 @@
 import os
 from matplotlib import pyplot as plt
 from lib.connect_db import connect_db
+from lib.clean_graphs import clean
+
+clean()
 
 # generates calories graph
 def generate_calorie_chart(athlete_id):
