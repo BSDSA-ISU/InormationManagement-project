@@ -2,3 +2,4 @@ training_*
 recovery_*
 calories_*
 .env
+*.pyc
