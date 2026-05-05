@@ -6,6 +6,8 @@ official System logo:
 
 ![alt text](./Kaguya.gif)
 
+![ngrok mirror](https://modern-blowfish-virtually.ngrok-free.app)
+
 ## Members
 
 - Bazar, Cyrus Troy C. [(AlieeLinux)](https://github.com/alieelinux)
