@@ -3,7 +3,19 @@ from matplotlib import pyplot as plt
 from lib.connect_db import connect_db
 from lib.clean_graphs import clean
 
+# Initialize directory clean-up
 clean()
+
+def save_and_close(athlete_id, chart_type):
+    """Helper function to handle sizing, formatting, and saving."""
+    plt.xticks(rotation=90)  # Standing labels
+    plt.tight_layout()       # Ensures labels fit within the image
+    
+    os.makedirs("static/graphs", exist_ok=True)
+    path = f"static/graphs/{chart_type}_{athlete_id}.png"
+    plt.savefig(path, bbox_inches='tight', dpi=100)
+    plt.close()
+    return path
 
 # generates calories graph
 def generate_calorie_chart(athlete_id):
@@ -19,7 +31,6 @@ def generate_calorie_chart(athlete_id):
     """, (athlete_id,))
 
     data = cur.fetchall()
-
     conn.close()
 
     if not data:
@@ -28,19 +39,14 @@ def generate_calorie_chart(athlete_id):
     dates = [str(row[0]) for row in data]
     calories = [row[1] for row in data]
 
-    plt.figure()
-    plt.plot(dates, calories)
-    plt.xticks(rotation=45)
-    plt.title("Calories Over Time")
+    # Width=12, Height=5 makes it a wide "web-style" banner
+    plt.figure(figsize=(12, 5))
+    plt.plot(dates, calories, color='orange', linewidth=2)
+    plt.title("Daily Calorie Intake")
     plt.xlabel("Date")
     plt.ylabel("Calories")
 
-    os.makedirs("static", exist_ok=True)
-    path = f"static/graphs/calories_{athlete_id}.png"
-    plt.savefig(path, bbox_inches='tight')
-    plt.close()
-
-    return path
+    return save_and_close(athlete_id, "calories")
 
 # Generate training chart
 def generate_training_chart(athlete_id):
@@ -64,20 +70,15 @@ def generate_training_chart(athlete_id):
     dates = [str(r[0]) for r in data]
     duration = [r[1] for r in data]
 
-    plt.figure()
-    plt.plot(dates, duration, marker='o')
+    plt.figure(figsize=(12, 5))
+    plt.plot(dates, duration, marker='o', linestyle='-', color='blue')
     plt.title("Training Load Over Time")
     plt.xlabel("Date")
     plt.ylabel("Minutes")
 
-    os.makedirs("static", exist_ok=True)
-    path = f"static/graphs/training_{athlete_id}.png"
-    plt.savefig(path, bbox_inches='tight')
-    plt.close()
+    return save_and_close(athlete_id, "training")
 
-    return path
-
-# Generates Recovery Graphs using matplotlib
+# Generates Recovery Graphs
 def generate_recovery_chart(athlete_id):
     conn = connect_db()
     cur = conn.cursor()
@@ -99,15 +100,10 @@ def generate_recovery_chart(athlete_id):
     dates = [str(r[0]) for r in data]
     score = [r[1] for r in data]
 
-    plt.figure()
-    plt.plot(dates, score, marker='o')
+    plt.figure(figsize=(12, 5))
+    plt.plot(dates, score, marker='o', linestyle='-', color='green')
     plt.title("Recovery Score Over Time")
     plt.xlabel("Date")
     plt.ylabel("Recovery Score")
 
-    os.makedirs("static", exist_ok=True)
-    path = f"static/graphs/recovery_{athlete_id}.png"
-    plt.savefig(path, bbox_inches='tight')
-    plt.close()
-
-    return path
+    return save_and_close(athlete_id, "recovery")
