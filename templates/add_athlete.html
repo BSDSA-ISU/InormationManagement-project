@@ -26,8 +26,17 @@
 
         <section class="card">
             <h2>➕ Add New Athlete</h2>
-        
+
             <form method="POST" class="form">
+                <input name="username" placeholder="username" required>
+                <input name="password" placeholder="password" required>
+
+                <select name="role">
+                    <option disabled selected>Role</option>
+                    <option>user</option>
+                    <option>admin</option>
+                </select>
+
                 <input name="name" placeholder="Name" required>
                 <input name="age" type="number" placeholder="Age">
             

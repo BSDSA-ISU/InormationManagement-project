@@ -74,19 +74,25 @@ class User(UserMixin):
         return self.role == "admin"
 
 
-# User loader
 @login_manager.user_loader
 def load_user(user_id):
     conn = connect_db()
     cur = conn.cursor()
 
-    cur.execute("SELECT id, username, password, role FROM users WHERE id=%s", (user_id,))
-    user = cur.fetchone()
-
+    # Query the merged athletes table
+    cur.execute("""
+        SELECT athlete_id, username, password, role, name 
+        FROM athletes 
+        WHERE athlete_id = %s
+    """, (user_id,))
+    
+    user_data = cur.fetchone()
     conn.close()
 
-    if user:
-        return User(user[0], user[1], user[2], user[3])
+    if user_data:
+        # Assuming your User class accepts these parameters
+        # You can now also pass 'name' if you want it available in current_user
+        return User(user_data[0], user_data[1], user_data[2], user_data[3])
     return None
 
 # login page landing
@@ -99,16 +105,23 @@ def login():
         conn = connect_db()
         cur = conn.cursor()
 
-        cur.execute("SELECT id, username, password, role FROM users WHERE username=%s", (username,))
-        user = cur.fetchone()
-
+        # Check credentials in the athletes table
+        cur.execute("""
+            SELECT athlete_id, username, password, role 
+            FROM athletes 
+            WHERE username = %s
+        """, (username,))
+        
+        user_data = cur.fetchone()
         conn.close()
 
-        if user and user[2] == password:
-            login_user(User(user[0], user[1], user[2], user[3]))
+        # Simple password check (consider using werkzeug.security for hashing later!)
+        if user_data and user_data[2] == password:
+            user_obj = User(user_data[0], user_data[1], user_data[2], user_data[3])
+            login_user(user_obj)
             return redirect("/")
         else:
-            flash("Invalid login", "error")
+            flash("Invalid username or password", "error")
 
     return render_template("login.html")
 
@@ -122,7 +135,13 @@ def logout():
 # Landing pege
 @app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+    conn = connect_db()
+    cur = conn.cursor()
+    
+    cur.execute("""SELECT COUNT(*) FROM athletes;""")
+    user_count = cur.fetchone()
+    
+    return render_template("index.html", usercount=user_count)
 
 @app.route("/athlete/<int:athlete_id>")
 def athlete(athlete_id):
@@ -181,6 +200,14 @@ def athlete(athlete_id):
 
     goals = cur.fetchall()
 
+    cur.execute("""
+    SELECT role
+    FROM athletes
+    WHERE athlete_id = %s
+    """, (athlete_id,))
+
+    role = cur.fetchall()
+
     conn.close()
 
     return render_template(
@@ -197,6 +224,7 @@ def athlete(athlete_id):
         training_chart=training_chart,
         recovery_chart=recovery_chart,
         athlete_id=athlete_id,
+        role=role[0][0]
     )
 
 if __name__ == "__main__":

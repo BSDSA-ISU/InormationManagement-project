@@ -44,6 +44,11 @@
             <p>Total Calories: {{ calories }} kcal</p>
             <p>Total Training Time: {{ training }} minutes</p>
             <p>Avg Recovery Score: {{ recovery }}</p>
+            {% if role == 'admin' %}
+                <p style="font-weight: bold; color: red;">Role: Admin</p>
+            {% else %}
+                <p style="color: blue;">Role: Normal User</p>
+            {% endif %}
         </section>
     
         <section class="card">
