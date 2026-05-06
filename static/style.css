@@ -43,7 +43,7 @@ body {
 }
 
 .nav-container {
-    width: 90%;
+    width: 95%;
     margin: auto;
     display: flex;
     justify-content: space-between;
@@ -362,7 +362,7 @@ img {
 }
 
 .dropdown-content {
-  left: 50%;
+  left: 0%;
   transform: translateX(-50%);
   display: none;
   position: absolute;

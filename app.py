@@ -64,11 +64,12 @@ def connect_db():
 
 # User class
 class User(UserMixin):
-    def __init__(self, id, username, password, role):
+    def __init__(self, id, username, password, role, name):
         self.id = id
         self.username = username
         self.password = password
         self.role = role
+        self.name = name
 
     def is_admin(self):
         return self.role == "admin"
@@ -81,7 +82,7 @@ def load_user(user_id):
 
     # Query the merged athletes table
     cur.execute("""
-        SELECT athlete_id, username, password, role, name 
+        SELECT athlete_id, username, password, role, name
         FROM athletes 
         WHERE athlete_id = %s
     """, (user_id,))
@@ -92,7 +93,7 @@ def load_user(user_id):
     if user_data:
         # Assuming your User class accepts these parameters
         # You can now also pass 'name' if you want it available in current_user
-        return User(user_data[0], user_data[1], user_data[2], user_data[3])
+        return User(user_data[0], user_data[1], user_data[2], user_data[3], name=user_data[4])
     return None
 
 # login page landing
@@ -107,17 +108,16 @@ def login():
 
         # Check credentials in the athletes table
         cur.execute("""
-            SELECT athlete_id, username, password, role 
-            FROM athletes 
+            SELECT athlete_id, username, password, role, name
+            FROM athletes
             WHERE username = %s
         """, (username,))
         
         user_data = cur.fetchone()
         conn.close()
 
-        # Simple password check (consider using werkzeug.security for hashing later!)
         if user_data and user_data[2] == password:
-            user_obj = User(user_data[0], user_data[1], user_data[2], user_data[3])
+            user_obj = User(user_data[0], user_data[1], user_data[2], user_data[3], user_data[4])
             login_user(user_obj)
             return redirect("/")
         else:

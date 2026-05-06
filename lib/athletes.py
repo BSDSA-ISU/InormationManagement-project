@@ -55,16 +55,19 @@ def add_athlete():
     cur = conn.cursor()
 
     if request.method == "POST":
+        username = request.form['username']
+        role = request.form['role']
         name = request.form["name"]
         age = request.form["age"]
         sex = request.form["sex"]
         weight = request.form["weight"]
         height = request.form["height"]
+        password = request.form['password']
 
         cur.execute("""
-            INSERT INTO athletes (name, age, sex, weight, height)
-            VALUES (%s, %s, %s, %s, %s)
-        """, (name, age, sex, weight, height))
+            INSERT INTO athletes (name, age, sex, weight, height, username, role, password)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """, (name, age, sex, weight, height, username, role, password,))
 
         conn.commit()
         conn.close()
@@ -86,16 +89,20 @@ def edit_athlete(athlete_id):
         try:
             # Update athlete info
             name = request.form["name"]
+            username = request.form["username"]
+            password = request.form["password"]
+            role = request.form['role']
             age = request.form["age"]
             sex = request.form["sex"]
             weight = request.form["weight"]
             height = request.form["height"]
 
+
             cur.execute("""
                 UPDATE athletes
-                SET name=%s, age=%s, sex=%s, weight=%s, height=%s
+                SET name=%s, age=%s, sex=%s, weight=%s, height=%s, username=%s, password=%s, role=%s
                 WHERE athlete_id=%s
-            """, (name, age, sex, weight, height, athlete_id))
+            """, (name, age, sex, weight, height, username, password, role, athlete_id))
 
 
             # Insert training session
@@ -203,7 +210,7 @@ def edit_athlete(athlete_id):
 
     # LOAD athlete data
     cur.execute("""
-        SELECT name, age, sex, weight, height
+        SELECT name, age, sex, weight, height, username, password, role
         FROM athletes
         WHERE athlete_id=%s
     """, (athlete_id,))
