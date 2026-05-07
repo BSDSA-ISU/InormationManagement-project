@@ -82,6 +82,14 @@
 
 * Added footer credit for logo ownership (Team Shanghai Alice / ZUN attribution)
 
+> involved: Cyrus Troy
+
+### 🕙 21:53:10 2026 +0800
+
+* added a logbook
+
+> Involved: Koishi
+
 ## 🧠 Notes
 
 * Git commits used as development trace
