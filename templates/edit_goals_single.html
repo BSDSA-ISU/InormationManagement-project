@@ -1,8 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Edit Nutrition Entry</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Goal Entry</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -11,51 +31,61 @@
         <div class="nav-container">
             <div class="logo">
                 <img src="/static/logo.png" style="border-radius: 50%;">
-                <span>Edit Goal</span>
+                <span>Goal Management</span>
             </div>
 
             <nav>
-                    <a href="/edit/goals/{{ log[1] }}">back</a>
-                </div>
+                <a href="/edit/goals/{{ log[1] }}" class="basicbutton">
+                    <span>←</span> Back
+                </a>
             </nav>
         </div>
     </header>
 
-    <main class="container">
+    <main class="container" style="max-width: 600px;">
 
-        <h2>✏️ Edit Nutrition Entry</h2>
+        <div class="hero" style="text-align: left; padding-bottom: 10px;">
+            <h2 style="color: var(--accent);">✏️ Edit Goal Entry</h2>
+            <p style="font-size: 0.9rem;">Update the targets and timeline for this athlete.</p>
+        </div>
 
-        <section class="card">
-
-            <form method="POST">
-
-                <div class="input-group">
-                    <label>Goal: </label>
-                    <input name="goal_type" value="{{ log[2] }}">
-                </div>
-
+        <section class="card instruction-box">
+            <form method="POST" class="form">
 
                 <div class="input-group">
-                    <label>Target Value: </label>
-                    <input type="number" name="target_value" value="{{ log[3] }}">
+                    <label>Goal Type / Description</label>
+                    <input name="goal_type" value="{{ log[2] }}" placeholder="e.g., Weight Loss, Daily Steps" required>
                 </div>
 
-                <div class="input-group">
-                    <label>current value</label>
-                    <input type="number" name="current_value" value="{{ log[4] }}">
+                <div class="grid-inputs">
+                    <div class="input-group">
+                        <label>Target Value</label>
+                        <input type="number" name="target_value" value="{{ log[3] }}" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Current Value</label>
+                        <input type="number" name="current_value" value="{{ log[4] }}" required>
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <label>start date:</label>
-                    <input type="date" name="start_date" value="{{ log[5] }}">
+                <div class="grid-inputs">
+                    <div class="input-group">
+                        <label>Start Date</label>
+                        <input type="date" name="start_date" value="{{ log[5] }}" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Target End Date</label>
+                        <input type="date" name="end_date" value="{{ log[6] }}" required>
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <label>End date:</label>
-                    <input type="date" name="end_date" value="{{ log[6] }}">
+                <div style="margin-top: 10px;">
+                    <button type="submit" class="project-btn" style="width: 100%; justify-content: center;">
+                        💾 Save Changes
+                    </button>
                 </div>
-
-                <button class="project-btn">💾 Save Changes</button>
 
             </form>
         </section>

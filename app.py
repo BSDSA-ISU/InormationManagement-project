@@ -140,8 +140,12 @@ def index():
     
     cur.execute("""SELECT COUNT(*) FROM athletes;""")
     user_count = cur.fetchone()
+    cur.execute("SELECT * FROM team_members")
+    members = cur.fetchall()
+
+    print(members)
     
-    return render_template("index.html", usercount=user_count)
+    return render_template("index.html", usercount=user_count, members=members)
 
 @app.route("/athlete/<int:athlete_id>")
 def athlete(athlete_id):

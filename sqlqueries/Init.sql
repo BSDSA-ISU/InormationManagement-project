@@ -62,3 +62,62 @@ CREATE TABLE users (
     password VARCHAR(255),
     role ENUM('admin', 'user') DEFAULT 'user'
 );
+
+CREATE TABLE team_members (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(100) NOT NULL,
+    username VARCHAR(50),
+    role VARCHAR(100),
+    about_me TEXT,
+    profile_image_path VARCHAR(255),
+    github_link VARCHAR(255),
+    facebook_link VARCHAR(255),
+    accent_color VARCHAR(7) DEFAULT '#10b981' -- Emerald green default
+);
+
+
+TRUNCATE TABLE team_members;
+
+INSERT INTO team_members 
+(full_name, username, role, about_me, profile_image_path, github_link, facebook_link, accent_color)
+VALUES 
+(
+    'Cyrus Troy Bazar', 
+    'Alieelinux', 
+    'Backend, Frontend, almost Everything', 
+    'An Ilocano student living in the holy lands of Isabela, currently attending at Isabela State University. Specialized in Backend development and System Architecture.', 
+    'https://media.tenor.com/tkrYhBBOk6wAAAAi/koishi-komeji-bounce.gif', 
+    'https://github.com/Alieelinux', 
+    NULL, 
+    '#ff00ea' -- Pink
+),
+(
+    'Rens Joshua Serrano', 
+    'Arrrjiiiiiii', 
+    'Provides the System Title', 
+    'DSA student from Alicia Isabela.', 
+    'https://encrypted-tbn-2.gstatic.com/images?q=tbn:ANd9GcSl6UUyktTnGvfyA_MsFXQbN11OetcwAfIK0UOhGLWrs2YgXCn', 
+    NULL, 
+    'https://www.facebook.com/Arrrjiiiiiii', 
+    '#c588ff' -- Violet
+),
+(
+    'Seb Salamatin', 
+    'sebastiengabriel.buenosalamatin#', 
+    'Low Cortisol Member', 
+    'DSA student from Alicia Isabela.', 
+    '/static/members/seb.png', 
+    NULL, 
+    'https://www.facebook.com/sebastiengabriel.buenosalamatin#', 
+    '#ffffff'
+),
+(
+    'Jl Imperial', 
+    'jhae.elle12', 
+    'Tester', 
+    'DSA student from Alicia Isabela.', 
+    '/static/members/seb.png', 
+    NULL, 
+    'https://www.facebook.com/jhae.elle12', 
+    '#00ffff'
+);

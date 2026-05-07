@@ -40,7 +40,7 @@ def generate_calorie_chart(athlete_id):
     calories = [row[1] for row in data]
 
     # Width=12, Height=5 makes it a wide "web-style" banner
-    plt.figure(figsize=(12, 5))
+    plt.figure(figsize=(8, 5))
     plt.plot(dates, calories, color='orange', linewidth=2)
     plt.title("Daily Calorie Intake")
     plt.xlabel("Date")
@@ -70,7 +70,7 @@ def generate_training_chart(athlete_id):
     dates = [str(r[0]) for r in data]
     duration = [r[1] for r in data]
 
-    plt.figure(figsize=(12, 5))
+    plt.figure(figsize=(8, 5))
     plt.plot(dates, duration, marker='o', linestyle='-', color='blue')
     plt.title("Training Load Over Time")
     plt.xlabel("Date")
@@ -100,7 +100,7 @@ def generate_recovery_chart(athlete_id):
     dates = [str(r[0]) for r in data]
     score = [r[1] for r in data]
 
-    plt.figure(figsize=(12, 5))
+    plt.figure(figsize=(8, 5))
     plt.plot(dates, score, marker='o', linestyle='-', color='green')
     plt.title("Recovery Score Over Time")
     plt.xlabel("Date")
