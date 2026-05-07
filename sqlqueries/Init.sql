@@ -78,6 +78,8 @@ CREATE TABLE team_members (
 
 TRUNCATE TABLE team_members;
 
+TRUNCATE TABLE team_members;
+
 INSERT INTO team_members 
 (full_name, username, role, about_me, profile_image_path, github_link, facebook_link, accent_color)
 VALUES 
@@ -86,9 +88,9 @@ VALUES
     'Alieelinux', 
     'Backend, Frontend, almost Everything', 
     'An Ilocano student living in the holy lands of Isabela, currently attending at Isabela State University. Specialized in Backend development and System Architecture.', 
-    'https://media.tenor.com/tkrYhBBOk6wAAAAi/koishi-komeji-bounce.gif', 
+    'https://media1.tenor.com/m/n6zppmoEdZUAAAAC/koishi-koishi-happy-love.gif', 
     'https://github.com/Alieelinux', 
-    NULL, 
+    'https://www.facebook.com/KoishiKomeiji0', 
     '#ff00ea' -- Pink
 ),
 (
@@ -96,7 +98,7 @@ VALUES
     'Arrrjiiiiiii', 
     'Provides the System Title', 
     'DSA student from Alicia Isabela.', 
-    'https://encrypted-tbn-2.gstatic.com/images?q=tbn:ANd9GcSl6UUyktTnGvfyA_MsFXQbN11OetcwAfIK0UOhGLWrs2YgXCn', 
+    '/static/members/renz.png', 
     NULL, 
     'https://www.facebook.com/Arrrjiiiiiii', 
     '#c588ff' -- Violet
@@ -106,7 +108,7 @@ VALUES
     'sebastiengabriel.buenosalamatin#', 
     'Low Cortisol Member', 
     'DSA student from Alicia Isabela.', 
-    '/static/members/seb.png', 
+    '/static/members/seb.jpg', 
     NULL, 
     'https://www.facebook.com/sebastiengabriel.buenosalamatin#', 
     '#ffffff'
@@ -116,7 +118,7 @@ VALUES
     'jhae.elle12', 
     'Tester', 
     'DSA student from Alicia Isabela.', 
-    '/static/members/seb.png', 
+    '/static/members/jl.jpg', 
     NULL, 
     'https://www.facebook.com/jhae.elle12', 
     '#00ffff'
