@@ -41,15 +41,15 @@ def athlete_list():
     athletes = cur.fetchall()
     conn.close()
 
-    return render_template("athlete_list.html", athletes=athletes, search=search)
+    return render_template("athlete_list.html", athletes=athletes, search=search, title="Athlete Directory")
 
 # Add athlete
 @add_athlete_bp.route("/add", methods=["GET", "POST"])
 @login_required
 def add_athlete():
-    if not current_user.is_admin():
+    if not current_user.is_admin() and not current_user.role == 'owner':
         flash("🚫 Admins only! Please login as admin first", "error")
-        return redirect(url_for('login', error='admins_only'))
+        return redirect(url_for('login', error='admins or owner only'))
     
     conn = connect_db()
     cur = conn.cursor()
@@ -76,7 +76,7 @@ def add_athlete():
         return redirect("/athletes")
 
     conn.close()
-    return render_template("add_athlete.html")
+    return render_template("add_athlete.html", title="Add Athlete")
 
 # EDit athletes
 @edit_athlete_bp.route("/edit/<int:athlete_id>", methods=["GET", "POST"])
@@ -206,7 +206,7 @@ def edit_athlete(athlete_id):
         except Exception as e:
             conn.rollback()
             flash(f"❌ Error: {str(e)}", "error")
-            return redirect(url_for("edit_athlete", athlete_id=athlete_id))
+            return redirect(url_for("edit_athlete", athlete_id=athlete_id, title="Profile Management"))
 
     # LOAD athlete data
     cur.execute("""
@@ -219,7 +219,7 @@ def edit_athlete(athlete_id):
 
     conn.close()
 
-    return render_template("edit.html", athlete=athlete, athlete_id=athlete_id)
+    return render_template("edit.html", athlete=athlete, athlete_id=athlete_id, title="Edit Athlete")
 
 
 # delete entry
@@ -228,9 +228,9 @@ def edit_athlete(athlete_id):
 def delete_athlete(athlete_id):
     
     # returns error if not an admin
-    if not current_user.is_admin():
+    if not current_user.is_admin() and current_user.role == 'owner':
         flash("🚫 Admins only!", "error")
-        return redirect(url_for('login', error='admins_only'))
+        return redirect(url_for('login', error='admins and ownwer only'))
 
     conn = connect_db()
     cur = conn.cursor()

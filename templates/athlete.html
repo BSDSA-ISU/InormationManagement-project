@@ -34,12 +34,7 @@
 
 <body>
 
-    <header class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <img src="/static/logo.png" style="border-radius: 50%;">
-                <span>Athlete Metrics</span>
-            </div>
+    {% include '/partials/navbar.html' %}
 
             <nav>
                 <a href="/" class="basicbutton">Home</a>
@@ -85,7 +80,9 @@
             
             <div style="margin-top: 15px; border-top: 1px solid var(--border); padding-top: 10px;">
                 {% if role == 'admin' %}
-                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #ef4444;">🛡️ Admin Access</span>
+                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #ef4444;;">🛡️ Admin Access</span>
+                {% elif role == 'owner' %}
+                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: rgb(255, 0, 183);font-weight: bolder">👑 Owner</span>
                 {% else %}
                     <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent);">👤 Standard User</span>
                 {% endif %}

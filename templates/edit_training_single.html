@@ -9,12 +9,7 @@
 </head>
 
 <body>
-    <header class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <img src="/static/logo.png" style="border-radius: 50%;">
-                <span>Training Editor</span>
-            </div>
+    {% include '/partials/navbar.html' %}
             <nav>
                 <a href="/edit/training/{{ log[1] }}" class="basicbutton">← Back</a>
             </nav>

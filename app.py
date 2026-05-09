@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask import Flask, render_template, request, redirect, flash, g
 import time
-import flask
+import importlib
 from flask_login import LoginManager, UserMixin, current_user, login_user, login_required, logout_user
 import matplotlib
 matplotlib.use("Agg")
@@ -153,6 +153,11 @@ def add_latency(response):
         response.headers["X-Latency"] = str(round((time.time() - g.start_time) * 1000, 2)) + "ms"
     return response
 
+# 404 url not found
+@app.errorhandler(404)
+def not_found(error):
+    return render_template("/static/Kaguya.gif"), 404
+
 # Landing pege
 @app.route("/", methods=["GET"])
 def index():
@@ -194,7 +199,7 @@ def index():
         
             # 🐍 PYTHON / FLASK
             "python_version": sys.version.split()[0],
-            "flask_version": flask.__version__,  # pyright: ignore[reportAttributeAccessIssue]
+            "flask_version": importlib.metadata.version("flask"),  # pyright: ignore[reportAttributeAccessIssue]
         
             # ⚙️ SYSTEM USAGE
             "cpu_usage": psutil.cpu_percent(interval=0.2),
@@ -275,6 +280,7 @@ def athlete(athlete_id):
 
     return render_template(
         "athlete.html",
+        title="Athlete metrics",
         athlete=athlete,
         nutrition_logs=nutrition_logs,
         training_sessions=training_sessions,

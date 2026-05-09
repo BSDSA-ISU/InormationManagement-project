@@ -24,7 +24,7 @@ def edit_nutrition_list(athlete_id):
     logs = cur.fetchall()
     conn.close()
 
-    return render_template("edit_nutrition.html", logs=logs, athlete_id=athlete_id)
+    return render_template("edit_nutrition.html", title="Nutrition History", logs=logs, athlete_id=athlete_id)
 
 @edit_nutrition_single_bp.route("/edit/nutrition/single/<int:nutrition_id>", methods=["GET", "POST"])
 def edit_nutrition_single(nutrition_id):
@@ -56,4 +56,4 @@ def edit_nutrition_single(nutrition_id):
     log = cur.fetchone()
     conn.close()
 
-    return render_template("edit_nutrition_single.html", log=log)
+    return render_template("edit_nutrition_single.html", title="Nutrition log", log=log)

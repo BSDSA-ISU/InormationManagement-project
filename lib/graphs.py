@@ -12,7 +12,7 @@ def save_and_close(athlete_id, chart_type):
     plt.tight_layout()       # Ensures labels fit within the image
     
     os.makedirs("static/graphs", exist_ok=True)
-    path = f"static/graphs/{chart_type}_{athlete_id}.png"
+    path = f"static/graphs/{chart_type}_{athlete_id}.svg"
     plt.savefig(path, bbox_inches='tight', dpi=100)
     plt.close()
     return path
@@ -40,7 +40,7 @@ def generate_calorie_chart(athlete_id):
     calories = [row[1] for row in data]
 
     # Width=12, Height=5 makes it a wide "web-style" banner
-    plt.figure(figsize=(8, 5))
+    plt.figure(figsize=(15, 5))
     plt.plot(dates, calories, color='orange', linewidth=2)
     plt.title("Daily Calorie Intake")
     plt.xlabel("Date")

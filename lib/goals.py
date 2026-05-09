@@ -24,7 +24,7 @@ def edit_goals_list(athlete_id):
     logs = cur.fetchall()
     conn.close()
 
-    return render_template("edit_goals.html", logs=logs, athlete_id=athlete_id)
+    return render_template("edit_goals.html", logs=logs, athlete_id=athlete_id, title="Goals History")
 
 @edit_goals_single_bp.route("/edit/goals/single/<int:goal_id>", methods=["GET", "POST"])
 def edit_goals_single(goal_id):
@@ -55,4 +55,4 @@ def edit_goals_single(goal_id):
     log = cur.fetchone()
     conn.close()
 
-    return render_template("edit_goals_single.html", log=log)
+    return render_template("edit_goals_single.html", log=log, title="Edit Goal")

@@ -24,7 +24,7 @@ def edit_training_list(athlete_id):
     logs = cur.fetchall()
     conn.close()
 
-    return render_template("edit_training.html", logs=logs, athlete_id=athlete_id)
+    return render_template("edit_training.html", title="Training History", logs=logs, athlete_id=athlete_id)
 
 @edit_training_single_bp.route("/edit/training/single/<int:session_id>", methods=["GET", "POST"])
 def edit_training_single(session_id):
@@ -55,4 +55,4 @@ def edit_training_single(session_id):
     log = cur.fetchone()
     conn.close()
 
-    return render_template("edit_training_single.html", log=log)
+    return render_template("edit_training_single.html", title="Training History", log=log)

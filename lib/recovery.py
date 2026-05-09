@@ -24,7 +24,7 @@ def edit_recovery_list(athlete_id):
     logs = cur.fetchall()
     conn.close()
 
-    return render_template("edit_recovery.html", logs=logs, athlete_id=athlete_id)
+    return render_template("edit_recovery.html", title="Nutrition History", logs=logs, athlete_id=athlete_id)
 
 @edit_recovery_single_bp.route("/edit/recovery/single/<int:recovery_id>", methods=["GET", "POST"])
 def edit_recovery_single(recovery_id):
@@ -55,4 +55,4 @@ def edit_recovery_single(recovery_id):
     log = cur.fetchone()
     conn.close()
 
-    return render_template("edit_recovery_single.html", log=log)
+    return render_template("edit_recovery_single.html", title="Recovery log", log=log)
