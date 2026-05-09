@@ -45,26 +45,22 @@
     </div>
 </header>
 
-<main class="container">
+<section class="hero-wrapper">
+    <div class="container"> <!-- Inner container keeps text aligned -->
+        <section class="hero">
+            <h1 id="home">Welcome to the Athlete System</h1>
+            <p>Servicing athlete logs, calories and graphs.</p>
+            <img class="mascot kaguya Houraisan" src="/static/Kaguya.gif">
+            <p style="font-size: small; color: gray;">Kaguya Houraisan</p>
+        </section>
 
-    <section class="hero">
-        <h1 id="home">Welcome to the Athlete System</h1>
-        <p>Track. Improve.</p>
-
-        <img class="mascot kaguya Houraisan" src="/static/Kaguya.gif">
-        <p style="font-size: small; color: gray;">Kaguya Houraisan</p>
-        {% if current_user.role == 'owner' %}
-            <p>Total LOC: {{ loc }}</p>
-        {% endif %}
-    </section>
-
-    <div class="hero">
-        <a href="#features" class="explore-btn">
-            Explore!
-        </a>
+        <div class="hero">
+            <a href="#features" class="explore-btn">Explore!</a>
+        </div>
     </div>
+</section>
 
-    <hr>
+<main class="container">
 
     <section class="card instruction-box">
         <div class="hero">
