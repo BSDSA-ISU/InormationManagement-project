@@ -343,3 +343,13 @@ hr {
     padding: 20px;
 }
 
+/* transparent charts */
+.chart {
+    background-color: transparent !important;
+    display: block;
+    width: 100%;
+    height: auto;
+ 
+    border: none;
+    outline: none;
+}
