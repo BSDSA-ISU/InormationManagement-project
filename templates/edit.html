@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Athlete - Master Form</title>
+
     <link rel="icon" type="image/png" href="/static/logo.png">
     <link rel="stylesheet" href="/static/style.css">
+    <meta name="google" content="notranslate">
+
     <style>
         .form-group { display: flex; flex-direction: column; gap: 12px; }
         .multi-box {
@@ -176,16 +179,7 @@
     </form>
 </main>
 
-<script>
-    function addEntry(containerId) {
-        const container = document.getElementById(containerId);
-        const box = container.children[0].cloneNode(true);
-        box.querySelectorAll("input, select").forEach(el => el.value = "");
-        container.appendChild(box);
-    }
-    const addTraining = () => addEntry("training-container");
-    const addRecovery = () => addEntry("recovery-container");
-    // Add similar for nutrition/goals
+<script src="/static/addentry.js">
 </script>
 </body>
 </html>

@@ -7,6 +7,7 @@
 
     <link rel="icon" type="image/png" href="/static/logo.png">
     <link rel="stylesheet" href="/static/style.css">
+
     <style>
         /* Specific tweaks for dashboard elements */
         .chart {
@@ -115,7 +116,7 @@
         <section class="card">
             <h2>🔥 Nutrition Trends</h2>
             {% if calorie_chart %}
-                <img src="/{{ calorie_chart }}?v={{ athlete_id }}" class="chart" alt="Calorie Chart">
+                <img src="/{{ calorie_chart }}?v={{ athlete_id }}" class="chart" onclick="openModal(this)" alt="Calorie Chart">
             {% else %}
                 <p style="color: var(--muted);">Waiting for nutrition data...</p>
             {% endif %}
@@ -127,7 +128,7 @@
         <section class="card">
             <h2>💪 Training Volume</h2>
             {% if training_chart %}
-                <img src="/{{ training_chart }}?v={{ athlete_id }}" class="chart" alt="Training Chart">
+                <img src="/{{ training_chart }}?v={{ athlete_id }}" class="chart" onclick="openModal(this)" alt="Training Chart">
             {% else %}
                 <p style="color: var(--muted);">Waiting for training logs...</p>
             {% endif %}
@@ -139,7 +140,7 @@
         <section class="card">
             <h2>🛌 Recovery Analysis</h2>
             {% if recovery_chart %}
-                <img src="/{{ recovery_chart }}?v={{ athlete_id }}" class="chart" alt="Recovery Chart">
+                <img src="/{{ recovery_chart }}?v={{ athlete_id }}" class="chart" onclick="openModal(this)" alt="Recovery Chart">
             {% else %}
                 <p style="color: var(--muted);">Waiting for recovery metrics...</p>
             {% endif %}
@@ -157,5 +158,13 @@
     
     </main>
 
+<div id="imgModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImg">
+</div>
+
+<script src="/static/graph_viewer.js"></script>
+
 </body>
+
 </html>
