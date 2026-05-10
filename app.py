@@ -156,7 +156,7 @@ def add_latency(response):
 # 404 url not found
 @app.errorhandler(404)
 def not_found(error):
-    return render_template("/static/Kaguya.gif"), 404
+    return render_template("/error404.html"), 404
 
 # Landing pege
 @app.route("/", methods=["GET"])
