@@ -125,9 +125,9 @@ insert INTO athletes (
     height
 )
 VALUES (
-    "admin",
-    "admin",
-    "admin",
+    "owner",
+    "owner",
+    "owner",
     "name admin",
     9999,
     "Female",

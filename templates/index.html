@@ -70,6 +70,27 @@
 
 <main class="container">
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div style="max-width: 800px; margin: 20px auto;">
+      {% for cat, msg in messages %}
+        <div style="
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-align: center;
+            border-left: 4px solid {% if cat == 'error' %}#ef4444{% else %}#22c55e{% endif %};
+            background: rgba(255,255,255,0.05);
+        ">
+            <span style="color: {% if cat == 'error' %}#f87171{% else %}#4ade80{% endif %};">
+                {{ msg }}
+            </span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
     <section class="card instruction-box">
         <div class="hero">
             <h2 style="color: var(--accent);">Info</h2>

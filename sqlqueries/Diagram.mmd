@@ -1,59 +1,72 @@
 erDiagram
-    ATHLETES {
-        INT athlete_id PK
-        VARCHAR username UK
-        VARCHAR password
-        ENUM role
-        VARCHAR name
-        INT age
-        ENUM sex
-        DECIMAL weight
-        DECIMAL height
-        TIMESTAMP created_at
-    }
 
-    NUTRITION_LOGS {
-        INT nutrition_id PK
-        INT athlete_id FK
-        VARCHAR meal_type
-        INT calories
-        DECIMAL protein
-        DECIMAL carbs
-        DECIMAL fats
-        DATE log_date
-    }
+    ATHLETES {
+        INT athlete_id PK
+        VARCHAR username
+        VARCHAR password
+        ENUM role
+        VARCHAR name
+        INT age
+        ENUM sex
+        DECIMAL weight
+        DECIMAL height
+        TIMESTAMP created_at
+    }
 
-    TRAINING_SESSIONS {
-        INT session_id PK
-        INT athlete_id FK
-        VARCHAR session_type
-        INT duration_minutes
-        ENUM intensity
-        INT calories_burned
-        DATE session_date
-    }
+    NUTRITION_LOGS {
+        INT nutrition_id PK
+        INT athlete_id FK
+        VARCHAR meal_type
+        INT calories
+        DECIMAL protein
+        DECIMAL carbs
+        DECIMAL fats
+        DATE log_date
+    }
 
-    RECOVERY_LOGS {
-        INT recovery_id PK
-        INT athlete_id FK
-        DECIMAL sleep_hours
-        INT soreness_level
-        INT stress_level
-        INT recovery_score
-        DATE log_date
-    }
+    TRAINING_SESSIONS {
+        INT session_id PK
+        INT athlete_id FK
+        VARCHAR session_type
+        INT duration_minutes
+        ENUM intensity
+        INT calories_burned
+        DATE session_date
+    }
 
-    GOALS {
-        INT goal_id PK
-        INT athlete_id FK
-        VARCHAR goal_type
-        DECIMAL target_value
-        DECIMAL current_value
-        DATE start_date
-        DATE end_date
-    }
+    RECOVERY_LOGS {
+        INT recovery_id PK
+        INT athlete_id FK
+        DECIMAL sleep_hours
+        INT soreness_level
+        INT stress_level
+        INT recovery_score
+        DATE log_date
+    }
 
-    ATHLETES ||--o{ NUTRITION_LOGS : "logs nutrition"
-    ATHLETES ||--o{ TRAINING_SESSIONS : "performs sessions"
-    ATHLETES ||--o{ RECOVERY_LOGS : "records recovery"
-    ATHLETES ||--o{ GOALS : "tracks goals"
+    GOALS {
+        INT goal_id PK
+        INT athlete_id FK
+        VARCHAR goal_type
+        DECIMAL target_value
+        DECIMAL current_value
+        DATE start_date
+        DATE end_date
+    }
+
+    TEAM_MEMBERS {
+        INT id PK
+        VARCHAR full_name
+        VARCHAR username
+        VARCHAR role
+        TEXT about_me
+        VARCHAR profile_image_path
+        VARCHAR github_link
+        VARCHAR facebook_link
+        VARCHAR accent_color
+    }
+
+    ATHLETES ||--o{ NUTRITION_LOGS : has
+    ATHLETES ||--o{ TRAINING_SESSIONS : has
+    ATHLETES ||--o{ RECOVERY_LOGS : has
+    ATHLETES ||--o{ GOALS : sets

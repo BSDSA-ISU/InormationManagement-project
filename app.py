@@ -4,7 +4,7 @@ import time
 import importlib
 from flask_login import LoginManager, UserMixin, current_user, login_user, login_required, logout_user
 import matplotlib
-from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 matplotlib.use("Agg")
 import os
 import sys
@@ -180,10 +180,18 @@ def login():
         user_data = cur.fetchone()
         conn.close()
 
-        if user_data and user_data[2] == password:
-            user_obj = User(user_data[0], user_data[1], user_data[2], user_data[3], user_data[4])
+        if user_data and check_password_hash(user_data[2], password):
+            user_obj = User(
+                user_data[0],
+                user_data[1],
+                user_data[2],
+                user_data[3],
+                user_data[4]
+            )
+
             login_user(user_obj)
             return redirect("/")
+
         else:
             flash("Invalid username or password", "error")
 

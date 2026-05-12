@@ -69,113 +69,124 @@
         </section>
 
         {% if current_user.username == athlete[5] or current_user.role == 'admin' or current_user.role == 'owner' %}
-            <section class="card">
-                <h2 style="margin-bottom: 15px;">🧑 Basic Information</h2>
-                <div class="form-group">
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <input name="username" value="{{ athlete[5] }}" placeholder="Username" required>
-                        <input name="password" type="password" value="{{ athlete[6] }}" placeholder="Password" required>
-                    </div>
-                    <input name="name" value="{{ athlete[0] }}" placeholder="Full Name" required>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                        <input name="age" value="{{ athlete[1] }}" placeholder="Age">
-                        <select name="sex">
-                            <option {% if athlete[2]=='Male' %}selected{% endif %}>Male</option>
-                            <option {% if athlete[2]=='Female' %}selected{% endif %}>Female</option>
-                            <option {% if athlete[2]=='Other' %}selected{% endif %}>Other</option>
-                        </select>
-                        <select name="role">
-                            {% if current_user.role == 'admin'%}
-                                <option value="admin" {% if athlete[7] == 'admin' %}selected{% endif %}>Admin</option>
-                                <option value="user" {% if athlete[7] == 'user' %}selected{% endif %}>User</option>
-                            {% elif current_user.role == 'owner' %}
-                                <option value="admin" {% if athlete[7] == 'admin' %}selected{% endif %}>Admin</option>
-                                <option value="user" {% if athlete[7] == 'user' %}selected{% endif %}>User</option>
+            {% if not athlete[7] == 'owner' or current_user.role == 'owner' %}
+                <section class="card">
+                    <h2 style="margin-bottom: 15px;">🧑 Basic Information</h2>
+                    <div class="form-group">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <input name="username" value="{{ athlete[5] }}" placeholder="Username" required>
+                            <input name="password" type="password" placeholder="Leave blank to keep current password">
+                        </div>
+                        <input name="name" value="{{ athlete[0] }}" placeholder="Full Name" required>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <input name="age" value="{{ athlete[1] }}" placeholder="Age">
+                            <select name="sex">
+                                <option {% if athlete[2]=='Male' %}selected{% endif %}>Male</option>
+                                <option {% if athlete[2]=='Female' %}selected{% endif %}>Female</option>
+                                <option {% if athlete[2]=='Other' %}selected{% endif %}>Other</option>
+                            </select>
+                            <select name="role">
+                                {% if athlete[7] == 'owner' %}
                                 <option value="owner" {% if athlete[7] == 'owner' %}selected{% endif %}>Owner</option>
-                            {% else %}
-                                <option value="user" selected>User</option>
-                            {% endif %}
-                        </select>
-                    </div>
+                                {% elif current_user.role == 'admin' %}
+                                    <option value="admin" {% if athlete[7] == 'admin' %}selected{% endif %}>Admin</option>
+                                    <option value="user" {% if athlete[7] == 'user' %}selected{% endif %}>User</option>
+                                {% elif current_user.role == 'owner' %}
+                                    <option value="admin" {% if athlete[7] == 'admin' %}selected{% endif %}>Admin</option>
+                                    <option value="user" {% if athlete[7] == 'user' %}selected{% endif %}>User</option>
+                                    <option value="owner" {% if athlete[7] == 'owner' %}selected{% endif %}>Owner</option>
+                                {% else %}
+                                    <option value="user" selected>User</option>
+                                {% endif %}
+                            </select>
+                        </div>
+
                     
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                        <input name="weight" value="{{ athlete[3] }}" placeholder="Weight (kg)">
-                        <input name="height" value="{{ athlete[4] }}" placeholder="Height (cm)">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <input name="weight" value="{{ athlete[3] }}" placeholder="Weight (kg)">
+                            <input name="height" value="{{ athlete[4] }}" placeholder="Height (cm)">
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            <section class="card">
-                <h2 style="margin-bottom: 15px;">🎯 Goals</h2>
-            
-                <div id="goals-container">
-                    <div class="multi-box">
-                        <input name="goal_type[]" placeholder="Goal Type (e.g. Weight Loss)">
-                        <input name="target_value[]" placeholder="Target Value">
-                        <input name="current_value[]" placeholder="Current Value">
-                        <input name="start_date[]" type="date">
-                        <input name="end_date[]" type="date">
+                <section class="card">
+                    <h2 style="margin-bottom: 15px;">🎯 Goals</h2>
+                
+                    <div id="goals-container">
+                        <div class="multi-box">
+                            <input name="goal_type[]" placeholder="Goal Type (e.g. Weight Loss)">
+                            <input name="target_value[]" placeholder="Target Value">
+                            <input name="current_value[]" placeholder="Current Value">
+                            <input name="start_date[]" type="date">
+                            <input name="end_date[]" type="date">
+                        </div>
                     </div>
-                </div>
-            
-                <button type="button" class="add-btn" onclick="addGoals()">
-                    ➕ Add Another Goal
+                
+                    <button type="button" class="add-btn" onclick="addGoals()">
+                        ➕ Add Another Goal
+                    </button>
+                </section>
+
+                <!-- Multi-Entry Sections -->
+                <section class="card">
+                    <h2 style="margin-bottom: 15px;">🏋️ Training Sessions</h2>
+                    <div id="training-container">
+                        <div class="multi-box">
+                            <input name="session_type[]" placeholder="Type (e.g. Strength)">
+                            <input name="duration_minutes[]" type="number" placeholder="Min">
+                            <select name="intensity[]">
+                                <option>Low</option><option>Medium</option><option>High</option>
+                            </select>
+                            <input name="calories_burned[]" type="number" placeholder="kcal">
+                            <input name="session_date[]" type="date">
+                        </div>
+                    </div>
+                    <button type="button" class="add-btn" onclick="addTraining()">➕ Add Another Session</button>
+                </section>
+
+                <section class="card">
+                    <h2 style="margin-bottom: 15px;">😴 Recovery Logs</h2>
+                    <div id="recovery-container">
+                        <div class="multi-box">
+                            <input name="sleep_hours[]" type="number" step="0.1" placeholder="Sleep Hrs">
+                            <select name="soreness_level[]">
+                                <option value="">Soreness (1-10)</option>
+                                {% for i in range(1, 11) %}<option value="{{ i }}">{{ i }}</option>{% endfor %}
+                            </select>
+                            <select name="stress_level[]">
+                                <option value="">Stress (1-10)</option>
+                                {% for i in range(1, 11) %}<option value="{{ i }}">{{ i }}</option>{% endfor %}
+                            </select>
+                            <select name="recovery_score[]">
+                                <option value="">Score (1-10)</option>
+                                {% for i in range(1, 11) %}<option value="{{ i }}">{{ i }}</option>{% endfor %}
+                            </select>
+                            <input name="recovery_log_date[]" type="date">
+                        </div>
+                    </div>
+                    <button type="button" class="add-btn" onclick="addRecovery()">➕ Add Another Log</button>
+                </section>
+
+                <!-- Nutrition & Goals would follow the same multi-box pattern -->
+                <!-- Snipped for brevity, but apply the multi-box class to them as well -->
+
+                <button type="submit" class="project-btn" style="width: 100%; padding: 18px; font-size: 1.1rem; margin-top: 20px;">
+                    💾 Save All Changes
                 </button>
-            </section>
-
-            <!-- Multi-Entry Sections -->
-            <section class="card">
-                <h2 style="margin-bottom: 15px;">🏋️ Training Sessions</h2>
-                <div id="training-container">
-                    <div class="multi-box">
-                        <input name="session_type[]" placeholder="Type (e.g. Strength)">
-                        <input name="duration_minutes[]" type="number" placeholder="Min">
-                        <select name="intensity[]">
-                            <option>Low</option><option>Medium</option><option>High</option>
-                        </select>
-                        <input name="calories_burned[]" type="number" placeholder="kcal">
-                        <input name="session_date[]" type="date">
-                    </div>
-                </div>
-                <button type="button" class="add-btn" onclick="addTraining()">➕ Add Another Session</button>
-            </section>
-
-            <section class="card">
-                <h2 style="margin-bottom: 15px;">😴 Recovery Logs</h2>
-                <div id="recovery-container">
-                    <div class="multi-box">
-                        <input name="sleep_hours[]" type="number" step="0.1" placeholder="Sleep Hrs">
-                        <select name="soreness_level[]">
-                            <option value="">Soreness (1-10)</option>
-                            {% for i in range(1, 11) %}<option value="{{ i }}">{{ i }}</option>{% endfor %}
-                        </select>
-                        <select name="stress_level[]">
-                            <option value="">Stress (1-10)</option>
-                            {% for i in range(1, 11) %}<option value="{{ i }}">{{ i }}</option>{% endfor %}
-                        </select>
-                        <select name="recovery_score[]">
-                            <option value="">Score (1-10)</option>
-                            {% for i in range(1, 11) %}<option value="{{ i }}">{{ i }}</option>{% endfor %}
-                        </select>
-                        <input name="recovery_log_date[]" type="date">
-                    </div>
-                </div>
-                <button type="button" class="add-btn" onclick="addRecovery()">➕ Add Another Log</button>
-            </section>
-
-            <!-- Nutrition & Goals would follow the same multi-box pattern -->
-            <!-- Snipped for brevity, but apply the multi-box class to them as well -->
-
-            <button type="submit" class="project-btn" style="width: 100%; padding: 18px; font-size: 1.1rem; margin-top: 20px;">
-                💾 Save All Changes
-            </button>
+            {% else %}
+                <section class="card instruction-box" style="border-left-color: #ef4444;">
+                    <h2 style="color: #ef4444;">⚠️ Access Denied</h2>
+                    <p>You do not have permission to modify this profile.</p>
+                </section>
+            {% endif %}
         {% else %}
             <section class="card instruction-box" style="border-left-color: #ef4444;">
-                <h2 style="color: #ef4444;">⚠️ Access Denied</h2>
+                <h2 style="color: #ef4444;">⚠️ Access Denied, This is the owner's profile</h2>
                 <p>You do not have permission to modify this profile.</p>
             </section>
         {% endif %}
+    
     </form>
 </main>
 
