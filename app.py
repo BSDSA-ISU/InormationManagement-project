@@ -4,6 +4,7 @@ import time
 import importlib
 from flask_login import LoginManager, UserMixin, current_user, login_user, login_required, logout_user
 import matplotlib
+from werkzeug.security import generate_password_hash
 matplotlib.use("Agg")
 import os
 import sys
@@ -18,6 +19,7 @@ from lib.goals import goals_bp, edit_goals_single_bp
 from lib.line_count import get_loc as count
 import platform
 import psutil
+
 
 load_dotenv()
 
@@ -103,6 +105,60 @@ def load_user(user_id):
         # You can now also pass 'name' if you want it available in current_user
         return User(user_data[0], user_data[1], user_data[2], user_data[3], name=user_data[4])
     return None
+
+# Signup
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+
+    if request.method == "POST":
+
+        username = request.form["username"]
+        password = request.form["password"]
+        name = request.form["name"]
+
+        age = request.form.get("age")
+        sex = request.form.get("sex")
+        weight = request.form.get("weight")
+        height = request.form.get("height")
+
+        hashed_password = generate_password_hash(password)
+
+        conn = connect_db()
+
+        try:
+            with conn.cursor() as cur:
+
+                cur.execute("""
+                    INSERT INTO athletes
+                    (username, password, role, name, age, sex, weight, height)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                """, (
+                    username,
+                    hashed_password,
+                    "user",  # default role
+                    name,
+                    age if age else None,
+                    sex if sex else None,
+                    weight if weight else None,
+                    height if height else None
+                ))
+
+            conn.commit()
+
+            flash("Account created successfully!", "success")
+            return redirect("/login")
+
+        except pymysql.err.IntegrityError:
+            flash("Username already exists!", "error")
+
+        except Exception as e:
+            print(e)
+            flash("Something went wrong.", "error")
+
+        finally:
+            conn.close()
+
+    return render_template("signup.html")
 
 # login page landing
 @app.route("/login", methods=["GET", "POST"])

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Athlete System</title>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="/static/logo.png" style="border-radius: 50%;">
+                <span>Registration Portal</span>
+            </div>
+
+            <nav>
+                <a href="/" class="basicbutton">Home</a>
+                <a href="/login" class="basicbutton">Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container" style="max-width: 500px; margin-top: 80px;">
+        <section class="card" style="border-top: 4px solid var(--accent);">
+
+            <div class="hero" style="padding-bottom: 20px;">
+                <h1 style="font-size: 2rem;">Create Account</h1>
+                <p>Welcome future athlete person thing 👁️</p>
+            </div>
+
+            <form method="POST" class="form">
+
+                <div style="margin-bottom: 15px;">
+                    <label style="font-size: 0.8rem; color: var(--muted); display: block; margin-bottom: 5px;">
+                        Full Name
+                    </label>
+
+                    <input 
+                        type="text"
+                        name="name"
+                        placeholder="Enter full name..."
+                        required
+                        style="width: 100%;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="font-size: 0.8rem; color: var(--muted); display: block; margin-bottom: 5px;">
+                        Username
+                    </label>
+
+                    <input 
+                        type="text"
+                        name="username"
+                        placeholder="Choose username..."
+                        required
+                        style="width: 100%;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="font-size: 0.8rem; color: var(--muted); display: block; margin-bottom: 5px;">
+                        Password
+                    </label>
+
+                    <input 
+                        type="password"
+                        name="password"
+                        placeholder="••••••••"
+                        required
+                        style="width: 100%;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="font-size: 0.8rem; color: var(--muted); display: block; margin-bottom: 5px;">
+                        Age
+                    </label>
+
+                    <input 
+                        type="number"
+                        name="age"
+                        min="1"
+                        placeholder="Enter age..."
+                        style="width: 100%;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="font-size: 0.8rem; color: var(--muted); display: block; margin-bottom: 5px;">
+                        Sex
+                    </label>
+
+                    <select name="sex" style="width: 100%;">
+                        <option value="">Select sex...</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="font-size: 0.8rem; color: var(--muted); display: block; margin-bottom: 5px;">
+                        Weight (kg)
+                    </label>
+
+                    <input 
+                        type="number"
+                        step="0.01"
+                        name="weight"
+                        placeholder="e.g. 65.50"
+                        style="width: 100%;">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="font-size: 0.8rem; color: var(--muted); display: block; margin-bottom: 5px;">
+                        Height (cm)
+                    </label>
+
+                    <input 
+                        type="number"
+                        step="0.01"
+                        name="height"
+                        placeholder="e.g. 170.00"
+                        style="width: 100%;">
+                </div>
+
+                <button type="submit" style="width: 100%; padding: 14px;">
+                    Create Account
+                </button>
+
+            </form>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <div style="margin-top: 25px;">
+                  {% for cat, msg in messages %}
+
+                    {% if cat == 'success' %}
+                        <div class="instruction-box"
+                             style="padding: 12px; border-radius: 8px; text-align: center; border-left-color: #22c55e; background: rgba(34, 197, 94, 0.1);">
+                            <span style="color: #4ade80; font-size: 0.9rem; font-weight: bold;">
+                                {{ msg }}
+                            </span>
+                        </div>
+                    {% else %}
+                        <div class="instruction-box"
+                             style="padding: 12px; border-radius: 8px; text-align: center; border-left-color: #ef4444; background: rgba(239, 68, 68, 0.1);">
+                            <span style="color: #f87171; font-size: 0.9rem; font-weight: bold;">
+                                {{ msg }}
+                            </span>
+                        </div>
+                    {% endif %}
+
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+        </section>
+    </div>
+
+</body>
+</html>

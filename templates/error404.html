@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title if title else "System" }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+
+        <div class="logo">
+            <img src="{{ '/static/admin.jpg' if current_user.is_authenticated and current_user.role in ['admin','owner'] else '/static/logo.png' }}" style="border-radius: 50%;">
+            <span>
+                {% if current_user.is_authenticated and current_user.role == 'owner' %}
+                    Owner Console 👑
+                {% elif current_user.is_authenticated and current_user.role == 'admin' %}
+                    Admin Panel 💻
+                {% else %}
+                    System Portal
+                {% endif %}
+            </span>
+        </div>
+
+        <div class="dropdown">
+            <button class="dropbtn">Menu</button>
+            <div class="dropdown-content">
+                <a href="/">Home</a>
+                {% if current_user.is_authenticated %}
+                    <a href="/logout">Logout</a>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</nav>
+
+<div class="container">
+
+{% if current_user.is_authenticated and current_user.role == 'owner' %}
+
+    <div class="hero">
+
+        <h1>Where are you going, onee-chan?</h1>
+
+        <p style="color: var(--muted); font-size: 1.1rem;">
+            You can’t just leave the system like that…
+        </p>
+
+        <!-- GIF PLACEHOLDER -->
+        <img class="mascot"
+             src="/static/404/ownergif.gif"
+             alt="pout gif"
+             style="max-width: 260px; border-radius: 20px; margin-top: 20px;">
+
+        <br><br>
+
+        <a href="/" class="explore-btn">Go back 🥺</a>
+    </div>
+
+
+{% elif current_user.is_authenticated and current_user.role == 'admin' %}
+
+    <div class="hero">
+        <h1>Hey there, miss/mister Admin ✨</h1>
+        <p style="color: var(--muted);">
+            Did you wonder off again?
+        </p>
+
+        <img class="mascot" src="/static/404/admingif.gif">
+        <p style="color: gray;">Houraisan-sama Recommends you to go back</p>
+        <p style="color: gray;">but say sorry to her first.</p>
+
+        <a href="/" class="explore-btn">Sorry</a>
+
+    </div>
+
+    <hr>
+
+    <div class="card instruction-box">
+        <h2>Be careful on clicking things</h2>
+        <p>Or it might bite you in the back later.</p>
+    </div>
+
+    <br>
+
+    <div class="card">
+        <h3>Status</h3>
+        <p>Database: <span style="color: lime;">Online</span></p>
+        <p>Backend: <span style="color: var(--accent);">Stable</span></p>
+        <p>Vibes: <span style="color: pink;">Soft chaos 💖</span></p>
+    </div>
+
+
+{% else %}
+
+    <!-- 🚫 404 STYLE (serious mode) -->
+    <div style="text-align:center; margin-top: 120px;">
+
+        <div class="card" style="max-width: 600px; margin:auto; border-left: 5px solid crimson;">
+
+            <h1 style="font-size: 3rem; color: crimson;">404</h1>
+
+            <h2>Resource Not Found</h2>
+
+            <p style="color: var(--muted); margin-top: 10px;">
+                The requested page does not exist or was removed.
+            </p>
+
+            <hr>
+
+            <p style="text-align:left; color: var(--muted);">
+                Possible causes:
+            </p>
+
+            <ul style="text-align:left; color: var(--muted); margin-left: 20px;">
+                <li>Wrong URL</li>
+                <li>Missing resource</li>
+                <li>Permission denied</li>
+                <li>Or reality glitch</li>
+            </ul>
+
+            <br>
+
+            <a href="/" class="basicbutton">Return Home</a>
+
+        </div>
+
+    </div>
+
+{% endif %}
+
+</div>
+
+<footer class="footer">
+    <div class="footer-bottom">
+        Theres nothing here 
+        <br>
+        go back now.
+    </div>
+</footer>
+
+</body>
+</html>

@@ -52,7 +52,12 @@
     <div class="container">
         <section class="hero">
             <h1 id="home">Welcome to the Athlete System</h1>
-            <p>Servicing athlete logs, calories and graphs since our professor anounced it.</p>
+            
+            {% if current_user.role == 'admin' or current_user.role == 'owner' %}
+                <p>Servicing athlete logs, calories and graphs because our professor anounced it since 2026.</p>
+            {% else %}
+                <p>Track. Improve. Update. Dominate</p>
+            {% endif %}
             <img class="mascot kaguya Houraisan" src="/static/Kaguya.gif">
             <p style="font-size: small; color: gray;">Kaguya Houraisan</p>
         </section>
