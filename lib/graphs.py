@@ -93,7 +93,6 @@ def generate_calorie_chart(athlete_id):
 
     # 2. Check if we can skip rendering
     if is_cache_valid(athlete_id, "calories", current_hash):
-        print("This shit is hashed...")
         return path
 
     dates = [str(row[0]) for row in data]
@@ -137,7 +136,6 @@ def generate_training_chart(athlete_id):
     path = f"static/graphs/training_{athlete_id}.svg"
 
     if is_cache_valid(athlete_id, "training", current_hash):
-        print("This shit is hashed...")
         return path
 
     dates = [str(row[0]) for row in data]
@@ -182,7 +180,6 @@ def generate_recovery_chart(athlete_id):
     path = f"static/graphs/recovery_{athlete_id}.svg"
 
     if is_cache_valid(athlete_id, "recovery", current_hash):
-        print("This shit is hashed...")
         return path
 
     fig, ax = plt.subplots(figsize=(15, 5))
@@ -191,8 +188,8 @@ def generate_recovery_chart(athlete_id):
     dates = [str(row[0]) for row in data]
     score = [row[1] for row in data]
 
-    ax.plot(dates, score, color=CHART_CONFIG["calories_line"], linewidth=2)
-    ax.set_title("Daily Calorie Intake")
+    ax.plot(dates, score, color=CHART_CONFIG["recovery_line"], linewidth=2)
+    ax.set_title("Recovery analysis")
     ax.set_xlabel("Date")
     ax.set_ylabel("Calories")
     

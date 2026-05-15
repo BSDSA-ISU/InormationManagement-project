@@ -1,3 +1,4 @@
+from werkzeug.security import generate_password_hash
 from lib.connect_db import connect_db
 from flask import Blueprint, Flask, render_template, request, redirect, flash, url_for
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -80,9 +81,35 @@ def add_athlete():
 
 # EDit athletes
 @edit_athlete_bp.route("/edit/<int:athlete_id>", methods=["GET", "POST"])
-def edit_athlete(athlete_id):
+def edit_athlete(athlete_id):    
     conn = connect_db()
     cur = conn.cursor()
+
+    # Get athlete being edited
+    cur.execute("""
+        SELECT username, role
+        FROM athletes
+        WHERE athlete_id = %s
+    """, (athlete_id,))
+
+    target_user = cur.fetchone()
+
+    # Permission checks
+    if not (
+        current_user.username == target_user[0]  # pyright: ignore[reportOptionalSubscript]
+        or current_user.role in ["admin", "owner"]
+    ):
+        flash("Access denied.", "error")
+        return redirect("/error404.html")
+
+    # Admin cannot edit owner
+    if (
+        target_user[1] == "owner"  # pyright: ignore[reportOptionalSubscript]
+        and current_user.role != "owner"
+    ):
+        flash("You cannot edit an owner account.", "error")
+        return redirect("/error404.html")
+
 
     # UPDATE + INSERT
     if request.method == "POST":
@@ -97,12 +124,28 @@ def edit_athlete(athlete_id):
             weight = request.form["weight"]
             height = request.form["height"]
 
+            # Hash password ONLY if needed
+            if password.startswith("scrypt:") or password.startswith("pbkdf2:"):
+                hashed_password = password
+            else:
+                hashed_password = generate_password_hash(password)
 
             cur.execute("""
                 UPDATE athletes
-                SET name=%s, age=%s, sex=%s, weight=%s, height=%s, username=%s, password=%s, role=%s
+                SET name=%s, age=%s, sex=%s, weight=%s, height=%s,
+                    username=%s, password=%s, role=%s
                 WHERE athlete_id=%s
-            """, (name, age, sex, weight, height, username, password, role, athlete_id))
+            """, (
+                name,
+                age,
+                sex,
+                weight,
+                height,
+                username,
+                hashed_password,
+                role,
+                athlete_id
+            ))
 
 
             # Insert training session
@@ -113,10 +156,11 @@ def edit_athlete(athlete_id):
             dates = request.form.getlist("session_date[]")
 
             for i in range(len(session_types)):
-                if session_types[i].strip():  # ignore empty rows
+                if session_types[i].strip():
                     cur.execute("""
                         INSERT INTO training_sessions
-                        (athlete_id, session_type, duration_minutes, intensity, calories_burned, session_date)
+                        (athlete_id, session_type, duration_minutes,
+                         intensity, calories_burned, session_date)
                         VALUES (%s, %s, %s, %s, %s, %s)
                     """, (
                         athlete_id,
@@ -138,7 +182,8 @@ def edit_athlete(athlete_id):
                 if sleep_hours[i].strip():
                     cur.execute("""
                         INSERT INTO recovery_logs
-                        (athlete_id, sleep_hours, soreness_level, stress_level, recovery_score, log_date)
+                        (athlete_id, sleep_hours, soreness_level,
+                         stress_level, recovery_score, log_date)
                         VALUES (%s, %s, %s, %s, %s, %s)
                     """, (
                         athlete_id,
@@ -167,7 +212,8 @@ def edit_athlete(athlete_id):
                 ):
                     cur.execute("""
                         INSERT INTO nutrition_logs
-                        (athlete_id, meal_type, calories, protein, carbs, fats, log_date)
+                        (athlete_id, meal_type, calories,
+                         protein, carbs, fats, log_date)
                         VALUES (%s, %s, %s, %s, %s, %s, %s)
                     """, (
                         athlete_id,
@@ -190,7 +236,8 @@ def edit_athlete(athlete_id):
                 if goal_types[i].strip():
                     cur.execute("""
                         INSERT INTO goals
-                        (athlete_id, goal_type, target_value, current_value, start_date, end_date)
+                        (athlete_id, goal_type, target_value,
+                         current_value, start_date, end_date)
                         VALUES (%s, %s, %s, %s, %s, %s)
                     """, (
                         athlete_id,
@@ -203,11 +250,16 @@ def edit_athlete(athlete_id):
 
             conn.commit()
             return redirect(f"/athlete/{athlete_id}")
+
         except Exception as e:
             conn.rollback()
             flash(f"❌ Error: {str(e)}", "error")
-            return redirect(url_for("edit_athlete", athlete_id=athlete_id, title="Profile Management"))
-
+            return redirect(url_for(
+                "edit_athlete",
+                athlete_id=athlete_id,
+                title="Profile Management"
+            ))
+            
     # LOAD athlete data
     cur.execute("""
         SELECT name, age, sex, weight, height, username, password, role
@@ -228,7 +280,7 @@ def edit_athlete(athlete_id):
 def delete_athlete(athlete_id):
     
     # returns error if not an admin
-    if not current_user.is_admin() and current_user.role == 'owner':
+    if not current_user.is_admin() and not current_user.role == 'owner':
         flash("🚫 Admins only!", "error")
         return redirect(url_for('login', error='admins and ownwer only'))
 
